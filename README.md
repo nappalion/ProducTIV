@@ -23,6 +23,7 @@ The following **optional** functionality is completed:
 
 - [ ] User can login with Google and other services.
 - [ ] User can add friends and see their progress.
+- [ ] Add animated customizability in the store.
 
 ## Weekly Progress
 
