@@ -14,7 +14,7 @@ The following **required** functionality is completed:
 - [ ] User can see their monthly/daily progress on the calendar page. 
 - [ ] User can view the shop and see customizable options for the goal, timer, and calendar page.
 - [ ] User can change settings: edit profile, changing password, notifications, etc.
-- [ ] User can edit, createm and delete a goal.
+- [ ] User can edit, create and delete a goal.
 - [ ] User can edit their timer.
 - [ ] User can view graph analytics (displaying totals) for the week, day, year, or month.
 
