@@ -26,5 +26,9 @@ The following **optional** functionality is completed:
 
 ## Weekly Progress
 
-### Week 1 (12/19): 
+### Week 2 (12/26-1/1):
+- n/a
+
+### Week 1 (12/19-12/25): 
 - Created the Figma diagram for the app.
+<img src="/progress/week1.JPG" width="350">
