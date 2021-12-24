@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         btnForgot = findViewById(R.id.btnForgot);
         btnSignup = findViewById(R.id.btnSignup);
 
+        etUsername.setText(getIntent().getStringExtra("username"));
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goSignupActivity() {
-        Intent i = new Intent();
+        Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+        i.putExtra("username", etUsername.getText().toString());
+        startActivity(i);
     }
 }
