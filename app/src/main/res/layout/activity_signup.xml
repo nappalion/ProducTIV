@@ -36,11 +36,11 @@
         android:layout_marginLeft="30sp"
         android:layout_marginTop="30sp"
         android:layout_marginRight="30sp"
-        android:textColor="@color/white"
         android:background="@drawable/textbox_white_border"
         android:hint="Email"
-        android:padding="10sp"
-        android:textColorHint="@color/white" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:padding="15sp"/>
 
     <EditText
         android:id="@+id/etUsername"
@@ -50,50 +50,78 @@
         android:layout_marginLeft="30sp"
         android:layout_marginTop="15sp"
         android:layout_marginRight="30sp"
-        android:textColor="@color/white"
         android:background="@drawable/textbox_white_border"
         android:hint="Username"
-        android:padding="10sp"
+        android:padding="15sp"
+        android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
-    <EditText
-        android:id="@+id/etPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_text_input_layout"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white"
+        app:boxStrokeWidth="0sp"
+        app:boxStrokeWidthFocused="0sp"
+        app:hintEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/etUsername"
-        android:layout_marginTop="15sp"
         android:layout_marginLeft="30sp"
-        android:layout_marginRight="30sp"
-        android:textColor="@color/white"
-        android:background="@drawable/textbox_white_border"
-        android:padding="10sp"
-        android:hint="Password"
-        android:textColorHint="@color/white"/>
+        android:layout_marginTop="15sp"
+        android:layout_marginRight="30sp">
 
-    <EditText
-        android:id="@+id/etVerifyPassword"
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etUsername"
+            android:background="@drawable/textbox_white_border"
+            android:hint="Password"
+            android:padding="15sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/verify_password_text_input_layout"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/white"
+        app:boxStrokeWidth="0sp"
+        app:boxStrokeWidthFocused="0sp"
+        app:hintEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etPassword"
-        android:layout_marginTop="15sp"
+        android:layout_below="@id/password_text_input_layout"
         android:layout_marginLeft="30sp"
-        android:layout_marginRight="30sp"
-        android:textColor="@color/white"
-        android:background="@drawable/textbox_white_border"
-        android:hint="Verify Password"
-        android:padding="10sp"
-        android:textColorHint="@color/white" />
+        android:layout_marginTop="15sp"
+        android:layout_marginRight="30sp">
+
+        <EditText
+            android:id="@+id/etVerifyPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password_text_input_layout"
+            android:background="@drawable/textbox_white_border"
+            android:hint="Verify Password"
+            android:padding="15sp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="textPassword"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etVerifyPassword"
+        android:layout_below="@id/verify_password_text_input_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="60sp"
         android:layout_marginTop="20sp"
         android:layout_marginRight="60sp"
         android:backgroundTint="@color/dark_red"
+        android:padding="12sp"
         android:text="Signup"
         android:textColor="@color/white"
         android:textSize="18sp" />
