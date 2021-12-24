@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/tiv_logo"
+        android:layout_marginTop="100sp"/>
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivLogo"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:background="@drawable/textbox_white_border"
+        android:fontFamily="@font/roboto"
+        android:padding="15sp"
+        android:hint="Username"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etUsername"
+        android:layout_marginLeft="50sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginRight="50sp"
+        android:background="@drawable/textbox_white_border"
+        android:fontFamily="@font/roboto"
+        android:hint="Password"
+        android:padding="15sp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/btnForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etPassword"
+        android:layout_alignRight="@id/etPassword"
+        android:background="@color/transparent"
+        android:minWidth="0sp"
+        android:minHeight="0sp"
+        android:padding="0sp"
+        android:text="Forgot Password?"
+        android:textAllCaps="false"
+        android:textSize="10sp" />
+
+    <CheckBox
+        android:id="@+id/btnRemember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnForgot"
+        android:layout_alignLeft="@id/etPassword"
+        android:buttonTint="@color/white"
+        android:minWidth="0sp"
+        android:minHeight="0sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/btnRemember"
+        android:layout_alignBottom="@id/btnRemember"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/btnRemember"
+        android:gravity="center"
+        android:text="Remember Me"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnRemember"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:backgroundTint="@color/dark_red"
+        android:text="Login"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/tvHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Don't have an account?"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5sp"
+            android:background="@color/transparent"
+            android:backgroundTint="@color/transparent"
+            android:minWidth="0sp"
+            android:minHeight="0sp"
+            android:padding="0sp"
+            android:text="Sign Up"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
