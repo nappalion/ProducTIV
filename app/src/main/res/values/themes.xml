@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:letterSpacing">0</item>
+        <item name="android:textCursorDrawable">@color/white</item>
     </style>
 </resources>
