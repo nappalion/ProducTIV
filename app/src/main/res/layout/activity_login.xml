@@ -12,9 +12,9 @@
         android:layout_width="150sp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="100sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tiv_logo"
-        android:layout_marginTop="100sp"/>
+        android:src="@drawable/tiv_logo" />
 
     <EditText
         android:id="@+id/etUsername"

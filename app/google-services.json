@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "991544490903",
+    "project_id": "productiv-aff1f",
+    "storage_bucket": "productiv-aff1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991544490903:android:b0112ce55e42c6330522d2",
+        "android_client_info": {
+          "package_name": "com.example.productiv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991544490903-uffvajed96gsvpqj0vnu44vljs0jjk9j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUlsYYwNyyHDO82Es7vxjJ1YKde4P5nUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991544490903-uffvajed96gsvpqj0vnu44vljs0jjk9j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
