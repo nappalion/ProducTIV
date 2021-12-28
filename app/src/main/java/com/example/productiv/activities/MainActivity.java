@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         // Initialize views
         ivSettings = findViewById(R.id.ivSettings);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);

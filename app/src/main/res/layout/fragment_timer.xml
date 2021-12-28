@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.TimerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/ivTimer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Timer" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tomato_timer" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvGoal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10sp"
+        android:background="@drawable/textbox_light_blue_fill"
+        android:paddingLeft="20sp"
+        android:paddingRight="20sp"
+        android:elevation="15sp"
+        tools:text="Study" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="50sp"
+        android:layout_marginRight="50sp"
+        android:background="@drawable/textbox_white_fill"
+        android:gravity="center"
+        android:textColor="@color/dark_gray"
+        android:textSize="70sp"
+        android:elevation="15sp"
+        tools:text="55:37" />
+
+    <ToggleButton
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10sp"
+        android:elevation="15sp" />
+
+</RelativeLayout>
