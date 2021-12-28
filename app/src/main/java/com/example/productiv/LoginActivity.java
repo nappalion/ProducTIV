@@ -49,7 +49,15 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginUser();
+                if (etUsername.getText().toString() != null
+                        && etPassword.getText().toString() != null
+                        && !etUsername.getText().toString().equals("")
+                        && !etPassword.getText().toString().equals("")) {
+                    loginUser();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

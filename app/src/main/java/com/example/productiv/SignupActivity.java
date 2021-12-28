@@ -54,13 +54,18 @@ public class SignupActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValid(etEmail.getText().toString())
-                        && etPassword.getText().toString().equals(etVerifyPassword.getText().toString())) {
-                    //  Create account
-                    createAccount();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                if (etEmail.getText().toString() != null
+                        && etPassword.getText().toString() != null
+                        && !etEmail.getText().toString().equals("")
+                        && !etPassword.getText().toString().equals("")) {
+                    if (isValid(etEmail.getText().toString())
+                            && etPassword.getText().toString().equals(etVerifyPassword.getText().toString())) {
+                        //  Create account
+                        createAccount();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
