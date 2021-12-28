@@ -17,7 +17,7 @@
         android:src="@drawable/tiv_logo" />
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivLogo"
@@ -25,10 +25,10 @@
         android:layout_marginRight="50sp"
         android:background="@drawable/textbox_white_border"
         android:fontFamily="@font/roboto"
+        android:hint="Email"
         android:padding="15sp"
-        android:hint="Username"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_text_input_layout"
@@ -39,7 +39,7 @@
         app:hintEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etUsername"
+        android:layout_below="@id/etEmail"
         android:layout_marginLeft="50sp"
         android:layout_marginRight="50sp">
 

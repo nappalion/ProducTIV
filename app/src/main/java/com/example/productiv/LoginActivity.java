@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText etUsername;
+    EditText etEmail;
     EditText etPassword;
     CheckBox btnRemember;
     Button btnLogin;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = findViewById(R.id.etUsername);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnRemember = findViewById(R.id.btnRemember);
@@ -44,14 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        etUsername.setText(getIntent().getStringExtra("username"));
+        etEmail.setText(getIntent().getStringExtra("username"));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etUsername.getText().toString() != null
+                if (etEmail.getText().toString() != null
                         && etPassword.getText().toString() != null
-                        && !etUsername.getText().toString().equals("")
+                        && !etEmail.getText().toString().equals("")
                         && !etPassword.getText().toString().equals("")) {
                     loginUser();
                 }
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginUser() {
-        mAuth.signInWithEmailAndPassword(etUsername.getText().toString(), etPassword.getText().toString())
+        mAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void goSignupActivity() {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
-        i.putExtra("username", etUsername.getText().toString());
+        i.putExtra("username", etEmail.getText().toString());
         startActivity(i);
     }
 }
