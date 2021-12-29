@@ -35,10 +35,10 @@
         android:layout_marginLeft="50sp"
         android:layout_marginRight="50sp"
         android:background="@drawable/textbox_white_fill"
+        android:elevation="15sp"
         android:gravity="center"
         android:textColor="@color/dark_gray"
         android:textSize="70sp"
-        android:elevation="15sp"
         tools:text="55:37" />
 
     <ToggleButton
