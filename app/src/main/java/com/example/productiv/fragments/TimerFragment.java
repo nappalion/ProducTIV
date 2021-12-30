@@ -92,19 +92,15 @@ public class TimerFragment extends Fragment {
 
     private void startContinueTimer() {
         Log.i(TAG, "startContinueTimer called with startTime: " + startTime);
+        // Initialize timer view
+        tvTimer.setText(calculateDuration(startTime));
         countDownTimer = new CountDownTimer(startTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // When tick
-                // Convert millisecond to minute and second
-                int seconds = (int) (millisUntilFinished / 1000);
-                int minutes = seconds / 60;
-                seconds = seconds % 60;
 
-                String timerDuration = String.format("%02d:%02d", minutes, seconds);
-                Log.i(TAG, timerDuration);
                 // Set converted string on text view
-                tvTimer.setText(timerDuration);
+                tvTimer.setText(calculateDuration(millisUntilFinished));
                 startTime = millisUntilFinished;
 
                 editor.putLong("startTime", startTime);
@@ -120,6 +116,16 @@ public class TimerFragment extends Fragment {
                 btnPlay.setChecked(true);
             }
         }.start();
+    }
+
+    public String calculateDuration(long time) {
+        // Convert millisecond to minute and second
+        int seconds = (int) (time / 1000);
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+        String timerDuration = String.format("%02d:%02d", minutes, seconds);
+        Log.i(TAG, timerDuration);
+        return timerDuration;
     }
 
     @Override
