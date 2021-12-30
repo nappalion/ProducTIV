@@ -1,7 +1,11 @@
 package com.example.productiv.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
@@ -26,29 +30,33 @@ public class TimerFragment extends Fragment {
     public static final String TAG = "TimerFragment";
 
     // Initialize timer duration
-    long startTime;
+    long startTime = TimeUnit.MINUTES.toMillis(1);;
     CountDownTimer countDownTimer;
 
     public TimerFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public long getStartTime() {
+        return startTime;
+    }
 
-        startTime = TimeUnit.MINUTES.toMillis(1);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        Log.i(TAG, "Called onResume()");
+
         if (countDownTimer != null) countDownTimer.cancel();
 
         startContinueTimer();
     }
 
-    //
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -60,23 +68,25 @@ public class TimerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (btnPlay.isChecked()) {
-
+                    timerPause();
                 }
                 else {
-
+                    timerResume();
                 }
             }
         });
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timer, container, false);
+    public void timerPause() {
+        countDownTimer.cancel();
+    }
+
+    public void timerResume() {
+        startContinueTimer();
     }
 
     private void startContinueTimer() {
+        Log.i(TAG, "startContinueTimer called with startTime: " + startTime);
         countDownTimer = new CountDownTimer(startTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -101,4 +111,17 @@ public class TimerFragment extends Fragment {
             }
         }.start();
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_timer, container, false);
+
+        // Log.i(TAG, "Called onCreateView");
+
+        return rootView;
+    }
+
+
 }
