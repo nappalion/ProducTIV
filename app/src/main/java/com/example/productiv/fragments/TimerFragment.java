@@ -30,27 +30,32 @@ public class TimerFragment extends Fragment {
     public static final String TAG = "TimerFragment";
 
     // Initialize timer duration
-    long startTime = TimeUnit.MINUTES.toMillis(1);;
+    long setTime = TimeUnit.MINUTES.toMillis(1);
+    long startTime;
     CountDownTimer countDownTimer;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public TimerFragment() {
         // Required empty public constructor
     }
 
-    public long getStartTime() {
-        return startTime;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = this.getActivity().getSharedPreferences("Timer", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         Log.i(TAG, "Called onResume()");
+
+        startTime = sharedPreferences.getLong("startTime", setTime);
+        // Log.i(TAG, "Getting startTime: " + sharedPreferences.getLong("startTime", setTime));
 
         if (countDownTimer != null) countDownTimer.cancel();
 
@@ -102,12 +107,17 @@ public class TimerFragment extends Fragment {
                 tvTimer.setText(timerDuration);
                 startTime = millisUntilFinished;
 
+                editor.putLong("startTime", startTime);
+                editor.apply();
+
                 Log.i(TAG, String.valueOf(startTime));
             }
 
             @Override
             public void onFinish() {
                 Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
+                startTime = setTime;
+                btnPlay.setChecked(true);
             }
         }.start();
     }
