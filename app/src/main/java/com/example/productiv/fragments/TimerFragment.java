@@ -24,10 +24,10 @@ public class TimerFragment extends Fragment {
     private TextView tvTimer;
     private ToggleButton btnPlay;
     public static final String TAG = "TimerFragment";
-    private CountDownTimer countDownTimer;
 
     // Initialize timer duration
-    long startTime = TimeUnit.MINUTES.toMillis(1);
+    long startTime;
+    CountDownTimer countDownTimer;
 
     public TimerFragment() {
         // Required empty public constructor
@@ -37,27 +37,15 @@ public class TimerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize countdown timer
-        countDownTimer = new CountDownTimer(startTime, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                // When tick
-                // Convert millisecond to minute and second
-                int seconds = (int) (millisUntilFinished / 1000);
-                int minutes = seconds / 60;
-                seconds = seconds % 60;
+        startTime = TimeUnit.MINUTES.toMillis(1);
+    }
 
-                String timerDuration = String.format("%02d:%02d", minutes, seconds);
-                Log.i(TAG, timerDuration);
-                // Set converted string on text view
-                tvTimer.setText(timerDuration);
-            }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (countDownTimer != null) countDownTimer.cancel();
 
-            @Override
-            public void onFinish() {
-                Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
-            }
-        }.start();
+        startContinueTimer();
     }
 
     //
@@ -86,5 +74,31 @@ public class TimerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_timer, container, false);
+    }
+
+    private void startContinueTimer() {
+        countDownTimer = new CountDownTimer(startTime, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // When tick
+                // Convert millisecond to minute and second
+                int seconds = (int) (millisUntilFinished / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+
+                String timerDuration = String.format("%02d:%02d", minutes, seconds);
+                Log.i(TAG, timerDuration);
+                // Set converted string on text view
+                tvTimer.setText(timerDuration);
+                startTime = millisUntilFinished;
+
+                Log.i(TAG, String.valueOf(startTime));
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
+            }
+        }.start();
     }
 }
