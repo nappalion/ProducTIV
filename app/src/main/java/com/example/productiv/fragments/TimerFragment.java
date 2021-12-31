@@ -35,6 +35,7 @@ public class TimerFragment extends Fragment {
     private EditText etTimer;
     private ToggleButton btnPlay;
     public static final String TAG = "TimerFragment";
+    public static final int TIMER_MAX = 5999000;
 
     // Initialize timer duration
     long setTime = TimeUnit.SECONDS.toMillis(10);
@@ -99,13 +100,11 @@ public class TimerFragment extends Fragment {
                                                           editTime += 0;
                                                       }
 
-                                                      int minutes = Integer.parseInt(editTime.substring(0,2));
-                                                      int seconds = Integer.parseInt(editTime.substring(3,5));
+                                                      if (calculateNewDuration(editTime) >= TIMER_MAX) editTime = "99:59";
 
-                                                      long newTime = TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toMillis(seconds);
-                                                      Log.i(TAG, "New Time: " + TimeUnit.MILLISECONDS.toMinutes(newTime) + " Using: " + minutes + " minutes" + seconds + " seconds");
-                                                      setTime = newTime;
-                                                      startTime = newTime;
+                                                      setTime = calculateNewDuration(editTime);
+                                                      startTime = calculateNewDuration(editTime);
+
                                                       editor.putLong("startTime", startTime);
                                                       editor.putLong("setTime", setTime);
 
@@ -189,6 +188,16 @@ public class TimerFragment extends Fragment {
                 btnPlay.setChecked(true);
             }
         }.start();
+    }
+
+    public long calculateNewDuration(String editTime) {
+        int minutes = Integer.parseInt(editTime.substring(0,2));
+        int seconds = Integer.parseInt(editTime.substring(3,5));
+
+        long newTime = TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toMillis(seconds);
+        Log.i(TAG, "New Time: " + TimeUnit.MILLISECONDS.toMinutes(newTime) + " Using: " + minutes + "; minutes " + seconds + " seconds");
+
+        return newTime;
     }
 
     public String calculateDuration(long time) {
