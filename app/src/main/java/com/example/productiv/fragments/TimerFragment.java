@@ -38,10 +38,10 @@ public class TimerFragment extends Fragment {
     public static final int TIMER_MAX = 5999000;
 
     // Initialize timer duration
-    long setTime = TimeUnit.SECONDS.toMillis(10);
-    long startTime;
-    boolean isPaused;
-    CountDownTimer countDownTimer;
+    private long setTime = TimeUnit.SECONDS.toMillis(10);
+    private long startTime;
+    private boolean isPaused;
+    private static CountDownTimer countDownTimer;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -59,6 +59,17 @@ public class TimerFragment extends Fragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_timer, container, false);
+
+        // Log.i(TAG, "Called onCreateView");
+
+        return rootView;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Log.i(TAG, "Called onResume()");
@@ -66,13 +77,16 @@ public class TimerFragment extends Fragment {
         // SharedPreferences remembers startTime and isPaused after app is killed
 
         startTime = sharedPreferences.getLong("startTime", setTime);
-        // setTime = sharedPreferences.getLong("setTime", setTime);
+        setTime = sharedPreferences.getLong("setTime", setTime);
         isPaused = sharedPreferences.getBoolean("isPaused", isPaused);
 
         // Log.i(TAG, "Getting startTime: " + sharedPreferences.getLong("startTime", setTime));
 
         // Deletes countDownTimer if doesn't exist
-        if (countDownTimer != null) countDownTimer.cancel();
+        if (countDownTimer != null) {
+            Log.i(TAG, "Canceled timer");
+            countDownTimer.cancel();
+        }
 
         startContinueTimer();
 
@@ -141,13 +155,6 @@ public class TimerFragment extends Fragment {
                 });
     }
 
-    public void hideKeyboard() {
-        // Code to hide the soft keyboard
-        InputMethodManager inputManager = (InputMethodManager)
-                getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(etTimer.getApplicationWindowToken(), 0);
-    }
-
     public void timerPause() {
         countDownTimer.cancel();
     }
@@ -173,7 +180,7 @@ public class TimerFragment extends Fragment {
                 editor.putLong("startTime", startTime);
                 editor.apply();
 
-                Log.i(TAG, String.valueOf(startTime));
+                // Log.i(TAG, String.valueOf(startTime));
             }
 
             @Override
@@ -186,6 +193,7 @@ public class TimerFragment extends Fragment {
                 editor.putBoolean("isPaused", true);
                 editor.apply();
                 btnPlay.setChecked(true);
+
             }
         }.start();
     }
@@ -210,14 +218,10 @@ public class TimerFragment extends Fragment {
         return timerDuration;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_timer, container, false);
-
-        // Log.i(TAG, "Called onCreateView");
-
-        return rootView;
+    public void hideKeyboard() {
+        // Code to hide the soft keyboard
+        InputMethodManager inputManager = (InputMethodManager)
+                getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(etTimer.getApplicationWindowToken(), 0);
     }
 }
