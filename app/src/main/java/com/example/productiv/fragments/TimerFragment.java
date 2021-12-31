@@ -35,6 +35,7 @@ public class TimerFragment extends Fragment {
     // Initialize timer duration
     long setTime = TimeUnit.SECONDS.toMillis(10);
     long startTime;
+    boolean isPaused;
     CountDownTimer countDownTimer;
 
     SharedPreferences sharedPreferences;
@@ -57,13 +58,21 @@ public class TimerFragment extends Fragment {
         super.onResume();
         Log.i(TAG, "Called onResume()");
 
-        // SharedPreferences remembers startTime after app is killed
+        // SharedPreferences remembers startTime and isPaused after app is killed
         startTime = sharedPreferences.getLong("startTime", setTime);
+        isPaused = sharedPreferences.getBoolean("isPaused", isPaused);
         // Log.i(TAG, "Getting startTime: " + sharedPreferences.getLong("startTime", setTime));
 
+        // Deletes countDownTimer if doesn't exist
         if (countDownTimer != null) countDownTimer.cancel();
 
         startContinueTimer();
+
+        // If paused before exiting activity, app remembers and pauses the timer
+        if (isPaused) {
+            timerPause();
+            btnPlay.setChecked(true);
+        }
     }
 
     @Override
@@ -78,10 +87,13 @@ public class TimerFragment extends Fragment {
             public void onClick(View v) {
                 if (btnPlay.isChecked()) {
                     timerPause();
+                    editor.putBoolean("isPaused", true);
                 }
                 else {
                     timerResume();
+                    editor.putBoolean("isPaused", false);
                 }
+                editor.apply();
             }
         });
     }
