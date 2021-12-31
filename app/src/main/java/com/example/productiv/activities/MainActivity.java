@@ -6,11 +6,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.productiv.R;
 import com.example.productiv.fragments.CalendarFragment;
@@ -19,12 +24,17 @@ import com.example.productiv.fragments.ShopFragment;
 import com.example.productiv.fragments.TimerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView ivSettings;
     BottomNavigationView bottomNavigationView;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private int menuToChoose = R.menu.menu_bottom_navigation;
+    public static final String TAG = "MainActivity";
+
+    // SharedPreferences sharedPreferences = getSharedPreferences("pref", Context.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,4 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() { }
 }
