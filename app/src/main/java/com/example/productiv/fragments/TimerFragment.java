@@ -81,6 +81,28 @@ public class TimerFragment extends Fragment {
         etTimer = getView().findViewById(R.id.etTimer);
         btnPlay = getView().findViewById(R.id.btnPlay);
 
+        etTimer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.i(TAG, "Focus Listener called.");
+                timerPause();
+                btnPlay.setChecked(true);
+                if (!hasFocus) {
+                    Log.i(TAG, "Focus Listener closed.");
+                    // Set value as setTime and startTime
+                    String editTime = etTimer.getText().toString();
+                    int minutes = 2; // Integer.parseInt(editTime.substring(0,1));
+                    int seconds = 3; // Integer.parseInt(editTime.substring(2,3));
+
+                    long newTime = TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toSeconds(seconds);
+                    Log.i(TAG, "New Time: " + TimeUnit.MILLISECONDS.toMinutes(newTime));
+                    setTime = newTime;
+                    startTime = newTime;
+                    timerResume();
+                    btnPlay.setChecked(false);
+                }
+            }
+        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +168,7 @@ public class TimerFragment extends Fragment {
         int seconds = (int) (time / 1000);
         int minutes = seconds / 60;
         seconds = seconds % 60;
-        String timerDuration = String.format("%02d:%02d", minutes, seconds);
+        String timerDuration = String.format("%02d%02d", minutes, seconds);
         Log.i(TAG, timerDuration);
         return timerDuration;
     }
@@ -161,6 +183,4 @@ public class TimerFragment extends Fragment {
 
         return rootView;
     }
-
-
 }

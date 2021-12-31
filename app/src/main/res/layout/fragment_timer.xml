@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    xmlns:mask="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.TimerFragment">
 
     <ImageView
@@ -27,7 +30,7 @@
         android:elevation="15sp"
         tools:text="Study" />
 
-    <EditText
+    <br.com.sapereaude.maskedEditText.MaskedEditText
         android:id="@+id/etTimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,12 +39,16 @@
         android:layout_marginRight="50sp"
         android:background="@drawable/textbox_white_fill"
         android:elevation="15sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center"
+        android:hint="0000"
+        android:inputType="number"
         android:textColor="@color/dark_gray"
         android:textSize="70sp"
-        android:inputType="number"
-        android:maxLength="5"
-        tools:text="55:37" />
+        mask:mask="##:##"
+        mask:keep_hint="true"
+        tools:text="53:23" />
 
     <ToggleButton
         android:id="@+id/btnPlay"

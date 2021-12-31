@@ -55,4 +55,7 @@ dependencies {
 
     // Declare the dependency for the Firebase Authentication library
     implementation 'com.google.firebase:firebase-auth'
+
+    // implementation 'io.github.vicmikhailau:MaskedEditText:4.0.7'
+    implementation 'ru.egslava:MaskedEditText:1.0.5'
 }
