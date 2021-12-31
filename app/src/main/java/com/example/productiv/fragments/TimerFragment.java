@@ -13,9 +13,13 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +63,11 @@ public class TimerFragment extends Fragment {
         Log.i(TAG, "Called onResume()");
 
         // SharedPreferences remembers startTime and isPaused after app is killed
+
         startTime = sharedPreferences.getLong("startTime", setTime);
+        // setTime = sharedPreferences.getLong("setTime", setTime);
         isPaused = sharedPreferences.getBoolean("isPaused", isPaused);
+
         // Log.i(TAG, "Getting startTime: " + sharedPreferences.getLong("startTime", setTime));
 
         // Deletes countDownTimer if doesn't exist
@@ -81,43 +88,65 @@ public class TimerFragment extends Fragment {
         etTimer = getView().findViewById(R.id.etTimer);
         btnPlay = getView().findViewById(R.id.btnPlay);
 
-        etTimer.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        // When user clicks confirm, set time and exit keyboard
+        etTimer.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                              @Override
+                                              public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                  if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                                      String editTime = etTimer.getText().toString();
+
+                                                      for (int i = editTime.length(); i <= 4; i++) {
+                                                          editTime += 0;
+                                                      }
+
+                                                      int minutes = Integer.parseInt(editTime.substring(0,2));
+                                                      int seconds = Integer.parseInt(editTime.substring(3,5));
+
+                                                      long newTime = TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toMillis(seconds);
+                                                      Log.i(TAG, "New Time: " + TimeUnit.MILLISECONDS.toMinutes(newTime) + " Using: " + minutes + " minutes" + seconds + " seconds");
+                                                      setTime = newTime;
+                                                      startTime = newTime;
+                                                      editor.putLong("startTime", startTime);
+                                                      editor.putLong("setTime", setTime);
+
+                                                      hideKeyboard();
+
+                                                  }
+                                                  return false;
+                                              }
+                                          });
+
+        // Pause if user tries to edit
+        etTimer.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.i(TAG, "Focus Listener called.");
-                timerPause();
+            public boolean onTouch(View v, MotionEvent event) {
                 btnPlay.setChecked(true);
-                if (!hasFocus) {
-                    Log.i(TAG, "Focus Listener closed.");
-                    // Set value as setTime and startTime
-                    String editTime = etTimer.getText().toString();
-                    int minutes = 2; // Integer.parseInt(editTime.substring(0,1));
-                    int seconds = 3; // Integer.parseInt(editTime.substring(2,3));
-
-                    long newTime = TimeUnit.MINUTES.toMillis(minutes) + TimeUnit.SECONDS.toSeconds(seconds);
-                    Log.i(TAG, "New Time: " + TimeUnit.MILLISECONDS.toMinutes(newTime));
-                    setTime = newTime;
-                    startTime = newTime;
-                    timerResume();
-                    btnPlay.setChecked(false);
-                }
+                timerPause();
+                return false;
             }
         });
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (btnPlay.isChecked()) {
-                    timerPause();
-                    editor.putBoolean("isPaused", true);
-                }
-                else {
-                    timerResume();
-                    editor.putBoolean("isPaused", false);
-                }
-                editor.apply();
-            }
-        });
+                btnPlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (btnPlay.isChecked()) {
+                            timerPause();
+                            editor.putBoolean("isPaused", true);
+                        } else {
+                            hideKeyboard();
+                            timerResume();
+                            editor.putBoolean("isPaused", false);
+                        }
+                        editor.apply();
+                    }
+                });
+    }
+
+    public void hideKeyboard() {
+        // Code to hide the soft keyboard
+        InputMethodManager inputManager = (InputMethodManager)
+                getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(etTimer.getApplicationWindowToken(), 0);
     }
 
     public void timerPause() {
@@ -150,7 +179,6 @@ public class TimerFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                // Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
                 startTime = setTime;
                 editor.putLong("startTime", startTime);
                 etTimer.setText(calculateDuration(startTime));

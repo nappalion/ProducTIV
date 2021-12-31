@@ -46,8 +46,9 @@
         android:inputType="number"
         android:textColor="@color/dark_gray"
         android:textSize="70sp"
-        mask:mask="##:##"
+        android:imeOptions="actionDone"
         mask:keep_hint="true"
+        mask:mask="##:##"
         tools:text="53:23" />
 
     <ToggleButton
