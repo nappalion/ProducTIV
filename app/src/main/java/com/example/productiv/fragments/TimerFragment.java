@@ -128,11 +128,14 @@ public class TimerFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
                 startTime = setTime;
+                editor.putLong("startTime", startTime);
                 etTimer.setText(calculateDuration(startTime));
                 // Log.i(TAG, "New startTime: " + startTime + " Taken from setTime: " + setTime);
                 countDownTimer.cancel();
+                editor.putBoolean("isPaused", true);
+                editor.apply();
                 btnPlay.setChecked(true);
             }
         }.start();
