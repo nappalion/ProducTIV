@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -25,12 +28,12 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerFragment extends Fragment {
 
-    private TextView tvTimer;
+    private EditText etTimer;
     private ToggleButton btnPlay;
     public static final String TAG = "TimerFragment";
 
     // Initialize timer duration
-    long setTime = TimeUnit.MINUTES.toMillis(1);
+    long setTime = TimeUnit.SECONDS.toMillis(10);
     long startTime;
     CountDownTimer countDownTimer;
 
@@ -54,6 +57,7 @@ public class TimerFragment extends Fragment {
         super.onResume();
         Log.i(TAG, "Called onResume()");
 
+        // SharedPreferences remembers startTime after app is killed
         startTime = sharedPreferences.getLong("startTime", setTime);
         // Log.i(TAG, "Getting startTime: " + sharedPreferences.getLong("startTime", setTime));
 
@@ -65,7 +69,7 @@ public class TimerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvTimer = getView().findViewById(R.id.tvTimer);
+        etTimer = getView().findViewById(R.id.etTimer);
         btnPlay = getView().findViewById(R.id.btnPlay);
 
 
@@ -93,14 +97,15 @@ public class TimerFragment extends Fragment {
     private void startContinueTimer() {
         Log.i(TAG, "startContinueTimer called with startTime: " + startTime);
         // Initialize timer view
-        tvTimer.setText(calculateDuration(startTime));
+        etTimer.setText(calculateDuration(startTime));
+
         countDownTimer = new CountDownTimer(startTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // When tick
 
                 // Set converted string on text view
-                tvTimer.setText(calculateDuration(millisUntilFinished));
+                etTimer.setText(calculateDuration(millisUntilFinished));
                 startTime = millisUntilFinished;
 
                 editor.putLong("startTime", startTime);
@@ -113,6 +118,9 @@ public class TimerFragment extends Fragment {
             public void onFinish() {
                 Toast.makeText(getContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
                 startTime = setTime;
+                etTimer.setText(calculateDuration(startTime));
+                // Log.i(TAG, "New startTime: " + startTime + " Taken from setTime: " + setTime);
+                countDownTimer.cancel();
                 btnPlay.setChecked(true);
             }
         }.start();
