@@ -8,7 +8,7 @@ from other apps into one. It features fun customizability, clear goal making, a 
 The following **required** functionality is completed:
 
 - [x] User can login/signup with their own account.
-- [ ] User can verify their email when signing up.
+- [x] User can verify their email when signing up.
 - [ ] User can view their goals for the day in the goal page.
 - [x] User can view and use a timer on the timer page.
 - [ ] User can see their monthly/daily progress on the calendar page. 
