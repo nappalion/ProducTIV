@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,8 +23,15 @@ public class EmailVerifyActivity extends AppCompatActivity {
     Button btnResendEmail;
     Button btnContact;
     public static final String TAG = "EmailVerifyActivity";
-    private FirebaseAuth mAuth;
+
+    // Initialize Firebase Auth
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    final FirebaseUser user = mAuth.getCurrentUser();
+
     boolean isSent;
+    Handler handler = new Handler();
+    Runnable runnable;
+    int delay = 1000; // 1 second
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +41,6 @@ public class EmailVerifyActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         btnResendEmail = findViewById(R.id.btnResendEmail);
         btnContact = findViewById(R.id.btnContact);
-
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-        final FirebaseUser user = mAuth.getCurrentUser();
 
         tvEmail.setText(user.getEmail());
 
@@ -58,13 +61,31 @@ public class EmailVerifyActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
 
-        while(isSent) {
-            if (user.isEmailVerified()) {
-                Log.i(TAG, "Email is verified!");
-                goMainActivity();
+    @Override
+    protected void onResume() {
+        handler.postDelayed(runnable = new Runnable() {
+            @Override
+            public void run() {
+                handler.postDelayed(runnable, delay);
+                Log.i(TAG, "Handler running.");
+                // Run this code every second
+                user.reload();
+                if (user.isEmailVerified()) {
+                    Log.i(TAG, "Email is verified!");
+                    goMainActivity();
+                }
             }
-        }
+        }, delay);
+        super.onResume();
+    }
+
+    // Stop handler when activity not visible
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable);
+        super.onPause();
     }
 
     public void goMainActivity() {

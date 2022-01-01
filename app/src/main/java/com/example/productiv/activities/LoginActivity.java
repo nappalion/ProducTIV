@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void goSignupActivity() {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
-        i.putExtra("username", etEmail.getText().toString());
+        i.putExtra("email", etEmail.getText().toString());
         startActivity(i);
         finish();
     }

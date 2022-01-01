@@ -49,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        etUsername.setText(getIntent().getStringExtra("username"));
+        etEmail.setText(getIntent().getStringExtra("email"));
 
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
