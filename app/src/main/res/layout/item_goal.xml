@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150sp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@drawable/default_goal">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40sp">
+
+        <TextView
+            android:id="@+id/tvGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="45sp"
+            tools:text="Exercise" />
+
+        <TextView
+            android:id="@+id/tvDGHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvGoal"
+            android:text="Daily Goal: "
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tvDGHeading"
+            android:layout_marginLeft="5sp"
+            android:layout_toRightOf="@+id/tvDGHeading"
+            android:textColor="@color/white"
+            tools:text="4 hours" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="35sp">
+
+        <TextView
+            android:id="@+id/tvCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15sp"
+            android:paddingRight="30sp"
+            android:textColor="@color/white"
+            android:textSize="50sp"
+            tools:text="0" />
+
+        <ImageView
+            android:id="@+id/ivFraction"
+            android:layout_width="50sp"
+            android:layout_height="40sp"
+            android:src="@drawable/fraction_icon"
+            android:layout_alignBottom="@id/tvCurrentTime"
+            android:layout_alignRight="@id/tvCurrentTime"/>
+
+        <TextView
+            android:id="@+id/tvGoalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_alignTop="@id/ivFraction"
+            android:paddingLeft="30sp"
+            android:paddingTop="15sp"
+            android:textSize="50sp"
+            tools:text="3"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

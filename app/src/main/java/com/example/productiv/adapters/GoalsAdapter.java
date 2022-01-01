@@ -1,4 +1,8 @@
 package com.example.productiv.adapters;
 
-public class GoalsAdapter {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class GoalsAdapter extends RecyclerView {
+
+
 }
