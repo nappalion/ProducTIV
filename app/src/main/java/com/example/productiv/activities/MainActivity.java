@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     public void goSettingsActivity() {
         Intent i = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(i);
+        finish();
     }
 
     @Override

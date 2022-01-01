@@ -95,7 +95,7 @@ public class SignupActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            goMainActivity();
+                            goEmailVerificationActivity();
                             // updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -123,10 +123,19 @@ public class SignupActivity extends AppCompatActivity {
         Intent i = new Intent(SignupActivity.this, LoginActivity.class);
         i.putExtra("username", etUsername.getText().toString());
         startActivity(i);
+        finish();
     }
 
     public void goMainActivity() {
+        Log.i(TAG, "Went to MainActivity from SignupActivity");
         Intent i = new Intent(SignupActivity.this, MainActivity.class);
         startActivity(i);
+        finish();
+    }
+
+    public void goEmailVerificationActivity() {
+        Intent i = new Intent(SignupActivity.this, EmailVerifyActivity.class);
+        startActivity(i);
+        finish();
     }
 }

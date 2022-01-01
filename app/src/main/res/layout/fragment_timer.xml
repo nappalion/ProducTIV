@@ -43,10 +43,10 @@
         android:focusableInTouchMode="true"
         android:gravity="center"
         android:hint="0000"
+        android:imeOptions="actionDone"
         android:inputType="number"
         android:textColor="@color/dark_gray"
         android:textSize="70sp"
-        android:imeOptions="actionDone"
         mask:keep_hint="true"
         mask:mask="##:##"
         tools:text="53:23" />

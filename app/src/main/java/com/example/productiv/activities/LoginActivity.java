@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if(currentUser != null && currentUser.isEmailVerified()){
             // Go to the Main Activity with user data
             goMainActivity();
         }
@@ -90,7 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            goMainActivity();
+                            if (user.isEmailVerified()) {
+                                goMainActivity();
+                            }
+                            else {
+                                goEmailVerifyActivity();
+                            }
                             // updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -104,13 +109,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goMainActivity() {
+        Log.i(TAG, "Went to MainActivity from LoginActivity");
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void goSignupActivity() {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
         i.putExtra("username", etEmail.getText().toString());
         startActivity(i);
+        finish();
+    }
+
+    public void goEmailVerifyActivity() {
+        Intent i = new Intent(LoginActivity.this, EmailVerifyActivity.class);
+        startActivity(i);
+        finish();
     }
 }
