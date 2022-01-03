@@ -3,14 +3,24 @@ package com.example.productiv.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.productiv.R;
+import com.example.productiv.adapters.GoalsAdapter;
+import com.example.productiv.models.UserGoals;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GoalsFragment extends Fragment {
+
+    RecyclerView rvGoals;
+    List<UserGoals> sampleGoals;
 
     public GoalsFragment() {
         // Required empty public constructor
@@ -19,6 +29,27 @@ public class GoalsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sampleGoals = new ArrayList<>();
+        sampleGoals.add(new UserGoals("Exercise", "Daily", 4, 3));
+        sampleGoals.add(new UserGoals("Study", "Weekly", 3, 2));
+        sampleGoals.add(new UserGoals("Cook", "Daily", 1, 0));
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Lookup the recyclerview in activity layout
+        rvGoals = (RecyclerView) getView().findViewById(R.id.rvGoals);
+
+        // Set Layout manager to position the items
+        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Create adapter passing in the user data
+        GoalsAdapter adapter = new GoalsAdapter(sampleGoals);
+        // Attach the adapter to the recyclerview to populate items
+        rvGoals.setAdapter(adapter);
     }
 
     @Override

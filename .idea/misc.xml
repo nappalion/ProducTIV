@@ -9,6 +9,7 @@
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/drawable/timer_button.xml" value="0.20989583333333334" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/font/roboto.xml" value="0.396875" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/activity_email_verification.xml" value="0.33" />
+        <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/activity_email_verify.xml" value="0.17604166666666668" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
@@ -17,7 +18,7 @@
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/fragment_goals.xml" value="0.25" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/fragment_shop.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/fragment_timer.xml" value="0.25" />
-        <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/item_goal.xml" value="0.25" />
+        <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/layout/item_goal.xml" value="0.2" />
         <entry key="..\:/Users/piolo/AndroidStudioProjects/ProducTIV/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.20520833333333333" />
       </map>
     </option>
