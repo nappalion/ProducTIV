@@ -18,6 +18,10 @@ public class ComposeActivity extends AppCompatActivity {
     EditText etRepeat;
     ImageView btnCompose;
 
+    String goalName;
+    String dailyGoal;
+    String repeat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +35,13 @@ public class ComposeActivity extends AppCompatActivity {
         btnCompose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                goalName = etGoalName.getText().toString();
+                dailyGoal = etDailyGoal.getText().toString();
+                repeat = etRepeat.getText().toString();
 
+                if (!goalName.equals("") && !dailyGoal.equals("") && !repeat.equals("")) {
+                    // Create new UserGoal
+                }
             }
         });
     }
