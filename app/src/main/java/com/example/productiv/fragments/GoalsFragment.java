@@ -36,6 +36,9 @@ public class GoalsFragment extends Fragment {
         sampleGoals.add(new UserGoals("Exercise", "Daily", 4, 3));
         sampleGoals.add(new UserGoals("Study", "Weekly", 3, 2));
         sampleGoals.add(new UserGoals("Cook", "Daily", 1, 0));
+        sampleGoals.add(new UserGoals("Drive", "Weekly", 6, 3));
+        sampleGoals.add(new UserGoals("Guitar", "Weekly", 3, 3));
+        sampleGoals.add(new UserGoals("Piano", "Weekly", 2, 0));
 
     }
 

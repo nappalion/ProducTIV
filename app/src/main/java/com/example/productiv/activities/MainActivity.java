@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch(item.getItemId()) {
                     case R.id.action_goals:
+                        if (bottomNavigationView.getSelectedItemId() == R.id.action_goals) {
+                            goComposeActivity();
+                        }
                         fragment = goalsFragment;
                         break;
                     case R.id.action_timer:
@@ -87,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 goSettingsActivity();
             }
         });
+    }
+
+    public void goComposeActivity() {
+        Intent i = new Intent(MainActivity.this, ComposeActivity.class);
+        startActivity(i);
     }
 
     public void goSettingsActivity() {

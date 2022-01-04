@@ -18,6 +18,7 @@
                 android:id="@+id/tvGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="45sp"
                 tools:text="Exercise" />
@@ -27,9 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvGoal"
-                android:text="Daily Goal: "
+                android:text="Daily Goal:"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvDailyGoal"
@@ -39,6 +40,7 @@
                 android:layout_marginStart="5sp"
                 android:layout_toEndOf="@+id/tvDGHeading"
                 android:textColor="@color/white"
+                android:textSize="18sp"
                 tools:text="4" />
 
             <TextView
@@ -49,7 +51,7 @@
                 android:layout_toEndOf="@+id/tvDailyGoal"
                 android:text=" hours"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
