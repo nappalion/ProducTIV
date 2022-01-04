@@ -16,7 +16,7 @@
         android:textColor="@color/white"
         android:padding="15sp"
         android:text="Create Goal"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/tvNameHeading"
@@ -31,7 +31,7 @@
     <EditText
         android:id="@+id/etGoalName"
         android:layout_width="match_parent"
-        android:layout_height="60sp"
+        android:layout_height="40sp"
         android:layout_below="@id/tvNameHeading"
         android:layout_marginLeft="40sp"
         android:layout_marginRight="40sp"
@@ -59,7 +59,7 @@
         <EditText
             android:id="@+id/etDailyGoal"
             android:layout_width="80sp"
-            android:layout_height="60sp"
+            android:layout_height="40sp"
             android:textColor="@color/black"
             android:layout_toRightOf="@id/tvDailyGoal"
             android:inputType="number"
@@ -90,7 +90,7 @@
     <EditText
         android:id="@+id/etRepeat"
         android:layout_width="match_parent"
-        android:layout_height="60sp"
+        android:layout_height="40sp"
         android:layout_marginLeft="40sp"
         android:layout_marginRight="40sp"
         android:inputType="text"

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +18,26 @@ import java.util.List;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
+    public interface OnLongClickListener {
+        void onItemLongClicked(int position);
+    }
+
+    public interface OnClickListener {
+        void onItemClicked(int position);
+    }
+
     public static final String TAG = "GoalsAdapter";
 
     private List<UserGoals> userGoals;
     Context context;
+    OnLongClickListener longClickListener;
+    OnClickListener clickListener;
 
-    public GoalsAdapter(List<UserGoals> userGoals, Context context) {
+    public GoalsAdapter(List<UserGoals> userGoals, Context context, OnLongClickListener longClickListener, OnClickListener clickListener) {
         this.userGoals = userGoals;
         this.context = context;
+        this.longClickListener = longClickListener;
+        this.clickListener = clickListener;
     }
 
 
@@ -66,6 +79,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         public TextView tvDailyGoal; // Displays daily goal needed under heading
         public TextView tvCurrentTime; // Displays current time
         public TextView tvGoalTime; // Displays goal time as denominator in fraction
+        public RelativeLayout goalContainer;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +88,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             tvDailyGoal = itemView.findViewById(R.id.tvDailyGoal);
             tvCurrentTime = itemView.findViewById(R.id.tvCurrentTime);
             tvGoalTime = itemView.findViewById(R.id.tvGoalTime);
+            goalContainer = itemView.findViewById(R.id.goalContainer);
         }
 
         public void bind(UserGoals userGoal) {
@@ -83,6 +98,23 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             tvDailyGoal.setText(Integer.toString(userGoal.getDailyGoal()));
             tvCurrentTime.setText(Integer.toString(userGoal.getCurrentTime()));
             tvGoalTime.setText(Integer.toString(userGoal.getDailyGoal()));
+
+            goalContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Notify the position that was pressed.
+                    clickListener.onItemClicked(getAdapterPosition());
+                }
+            });
+
+            goalContainer.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // Notify the position that was long pressed.
+                    longClickListener.onItemLongClicked(getAdapterPosition());
+                    return true;
+                }
+            });
         }
     }
 }

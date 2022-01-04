@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.productiv.R;
 import com.example.productiv.adapters.GoalsAdapter;
@@ -22,6 +23,7 @@ public class GoalsFragment extends Fragment {
 
     RecyclerView rvGoals;
     List<UserGoals> sampleGoals;
+    GoalsAdapter goalsAdapter;
     public static final String TAG = "GoalsFragment";
 
     public GoalsFragment() {
@@ -40,6 +42,25 @@ public class GoalsFragment extends Fragment {
         sampleGoals.add(new UserGoals("Guitar", "Weekly", 3, 3));
         sampleGoals.add(new UserGoals("Piano", "Weekly", 2, 0));
 
+        GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
+            @Override
+            public void onItemLongClicked(int position) {
+                // Delete the item from the model
+                sampleGoals.remove(position);
+                // Notify the adapter
+                goalsAdapter.notifyItemRemoved(position);
+            }
+        };
+
+        GoalsAdapter.OnClickListener onClickListener = new GoalsAdapter.OnClickListener() {
+            @Override
+            public void onItemClicked(int position) {
+
+            }
+        };
+
+        // Create adapter passing in the user data
+        goalsAdapter = new GoalsAdapter(sampleGoals, getContext(), onLongClickListener, onClickListener);
     }
 
     @Override
@@ -48,14 +69,12 @@ public class GoalsFragment extends Fragment {
         // Lookup the recyclerview in activity layout
         rvGoals = (RecyclerView) getView().findViewById(R.id.rvGoals);
 
-        // Create adapter passing in the user data
-        GoalsAdapter adapter = new GoalsAdapter(sampleGoals, getContext());
         // Attach the adapter to the recyclerview to populate items
-        rvGoals.setAdapter(adapter);
+        rvGoals.setAdapter(goalsAdapter);
 
         // Set Layout manager to position the items
         rvGoals.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.i(TAG, adapter.getItemCount() + "");
+        Log.i(TAG, goalsAdapter.getItemCount() + "");
     }
 
     @Override
