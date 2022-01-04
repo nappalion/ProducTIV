@@ -2,6 +2,7 @@ package com.example.productiv.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,13 @@ import android.widget.Toast;
 import com.example.productiv.R;
 import com.example.productiv.adapters.GoalsAdapter;
 import com.example.productiv.models.UserGoals;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +34,11 @@ public class GoalsFragment extends Fragment {
     GoalsAdapter goalsAdapter;
     public static final String TAG = "GoalsFragment";
 
+    // Firebase initialize
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mRef;
+    private FirebaseAuth mAuth;
+
 
     public GoalsFragment() {
         // Required empty public constructor
@@ -35,14 +48,33 @@ public class GoalsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Firebase initialize
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+
         sampleGoals = new ArrayList<>();
 
-        sampleGoals.add(new UserGoals("Exercise", "Daily", 4, 3));
-        sampleGoals.add(new UserGoals("Study", "Weekly", 3, 2));
-        sampleGoals.add(new UserGoals("Cook", "Daily", 1, 0));
-        sampleGoals.add(new UserGoals("Drive", "Weekly", 6, 3));
-        sampleGoals.add(new UserGoals("Guitar", "Weekly", 3, 3));
-        sampleGoals.add(new UserGoals("Piano", "Weekly", 2, 0));
+        ValueEventListener goalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Get Goal object and add to sampleGoals list
+                sampleGoals.clear();
+                for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
+                    sampleGoals.add(snapShot.getValue(UserGoals.class));
+                    Log.i(TAG, "Added " + snapShot.getValue(UserGoals.class));
+                }
+                goalsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Getting Goal failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", error.toException());
+            }
+        };
+        mRef.addValueEventListener(goalListener);
 
         GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
             @Override
