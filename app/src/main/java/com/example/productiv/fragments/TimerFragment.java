@@ -1,6 +1,7 @@
 package com.example.productiv.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -26,6 +27,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.example.productiv.R;
+import com.example.productiv.activities.MainActivity;
+import com.example.productiv.activities.TimerGoalActivity;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class TimerFragment extends Fragment {
 
     private EditText etTimer;
+    private TextView tvGoal;
     private ToggleButton btnPlay;
     public static final String TAG = "TimerFragment";
     public static final int TIMER_MAX = 5999000;
@@ -102,6 +106,14 @@ public class TimerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         etTimer = getView().findViewById(R.id.etTimer);
         btnPlay = getView().findViewById(R.id.btnPlay);
+        tvGoal = getView().findViewById(R.id.tvGoal);
+
+        tvGoal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goTimerGoalActivity();
+            }
+        });
 
         // When user clicks confirm, set time and exit keyboard
         etTimer.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -223,5 +235,10 @@ public class TimerFragment extends Fragment {
         InputMethodManager inputManager = (InputMethodManager)
                 getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(etTimer.getApplicationWindowToken(), 0);
+    }
+
+    public void goTimerGoalActivity() {
+        Intent i = new Intent(getActivity(), TimerGoalActivity.class);
+        startActivity(i);
     }
 }

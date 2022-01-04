@@ -12,7 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.productiv.R;
+import com.example.productiv.activities.ComposeActivity;
+import com.example.productiv.activities.MainActivity;
 import com.example.productiv.models.UserGoals;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -32,6 +38,12 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     Context context;
     OnLongClickListener longClickListener;
     OnClickListener clickListener;
+
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();;
+    private DatabaseReference mRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
 
     public GoalsAdapter(List<UserGoals> userGoals, Context context, OnLongClickListener longClickListener, OnClickListener clickListener) {
         this.userGoals = userGoals;
@@ -110,8 +122,12 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             goalContainer.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // Notify the position that was long pressed.
-                    longClickListener.onItemLongClicked(getAdapterPosition());
+                    if (context.getClass().equals(MainActivity.class)) {
+                        // Notify the position that was long pressed.
+                        longClickListener.onItemLongClicked(getAdapterPosition());
+                        // Delete the item from database
+                        mRef.child(userGoal.getGoalName()).removeValue();
+                    }
                     return true;
                 }
             });

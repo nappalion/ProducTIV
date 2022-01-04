@@ -25,9 +25,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10sp"
         android:background="@drawable/textbox_light_blue_fill"
+        android:elevation="15sp"
         android:paddingLeft="20sp"
         android:paddingRight="20sp"
-        android:elevation="15sp"
         tools:text="Study" />
 
     <br.com.sapereaude.maskedEditText.MaskedEditText

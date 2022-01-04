@@ -1,17 +1,13 @@
-package com.example.productiv.fragments;
-
-import android.os.Bundle;
+package com.example.productiv.activities;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.productiv.R;
 import com.example.productiv.adapters.GoalsAdapter;
@@ -27,26 +23,26 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoalsFragment extends Fragment {
+public class TimerGoalActivity extends AppCompatActivity {
 
     RecyclerView rvGoals;
-    List<UserGoals> sampleGoals;
-    GoalsAdapter goalsAdapter;
-    public static final String TAG = "GoalsFragment";
 
     // Firebase initialize
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
+    List<UserGoals> sampleGoals;
 
+    public static final String TAG = "TimerGoalActivity";
 
-    public GoalsFragment() {
-        // Required empty public constructor
-    }
+    GoalsAdapter goalsAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timer_goal);
+
+        rvGoals = findViewById(R.id.rvGoals);
 
         // Firebase initialize
         mAuth = FirebaseAuth.getInstance();
@@ -83,10 +79,7 @@ public class GoalsFragment extends Fragment {
         GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
             @Override
             public void onItemLongClicked(int position) {
-                // Delete the item from the model
-                sampleGoals.remove(position);
-                // Notify the adapter
-                goalsAdapter.notifyItemRemoved(position);
+                // Do when long clicked
             }
         };
 
@@ -98,27 +91,16 @@ public class GoalsFragment extends Fragment {
         };
 
         // Create adapter passing in the user data
-        goalsAdapter = new GoalsAdapter(sampleGoals, getContext(), onLongClickListener, onClickListener);
-    }
+        goalsAdapter = new GoalsAdapter(sampleGoals, getApplicationContext(), onLongClickListener, onClickListener);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         // Lookup the recyclerview in activity layout
-        rvGoals = (RecyclerView) getView().findViewById(R.id.rvGoals);
+        rvGoals = (RecyclerView) findViewById(R.id.rvGoals);
 
         // Attach the adapter to the recyclerview to populate items
         rvGoals.setAdapter(goalsAdapter);
 
         // Set Layout manager to position the items
-        rvGoals.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvGoals.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         Log.i(TAG, goalsAdapter.getItemCount() + "");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals, container, false);
     }
 }
