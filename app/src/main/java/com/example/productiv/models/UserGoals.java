@@ -1,5 +1,8 @@
 package com.example.productiv.models;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class UserGoals {
     private String goalName;
     private String repeat;
@@ -13,6 +16,7 @@ public class UserGoals {
         this.repeat = repeat;
         this.dailyGoal = dailyGoal;
     }
+
 
     public void setGoalName(String goalName) {
         this.goalName = goalName;

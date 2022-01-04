@@ -26,6 +26,7 @@ public class GoalsFragment extends Fragment {
     GoalsAdapter goalsAdapter;
     public static final String TAG = "GoalsFragment";
 
+
     public GoalsFragment() {
         // Required empty public constructor
     }
@@ -35,6 +36,7 @@ public class GoalsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         sampleGoals = new ArrayList<>();
+
         sampleGoals.add(new UserGoals("Exercise", "Daily", 4, 3));
         sampleGoals.add(new UserGoals("Study", "Weekly", 3, 2));
         sampleGoals.add(new UserGoals("Cook", "Daily", 1, 0));
