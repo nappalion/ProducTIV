@@ -20,16 +20,18 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     public static final String TAG = "GoalsAdapter";
 
     private List<UserGoals> userGoals;
+    Context context;
 
-    public GoalsAdapter(List<UserGoals> userGoals) {
+    public GoalsAdapter(List<UserGoals> userGoals, Context context) {
         this.userGoals = userGoals;
+        this.context = context;
     }
 
 
     // Inflates the layout from XML and returns the holder
     @NonNull
     @Override
-    public GoalsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -76,6 +78,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         public void bind(UserGoals userGoal) {
             // Set item views based on your views and data model
+            Log.i(TAG, userGoal.getGoalName());
             tvGoal.setText(userGoal.getGoalName());
             tvDailyGoal.setText(Integer.toString(userGoal.getDailyGoal()));
             tvCurrentTime.setText(Integer.toString(userGoal.getCurrentTime()));

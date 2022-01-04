@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class GoalsFragment extends Fragment {
 
     RecyclerView rvGoals;
     List<UserGoals> sampleGoals;
+    public static final String TAG = "GoalsFragment";
 
     public GoalsFragment() {
         // Required empty public constructor
@@ -43,13 +45,14 @@ public class GoalsFragment extends Fragment {
         // Lookup the recyclerview in activity layout
         rvGoals = (RecyclerView) getView().findViewById(R.id.rvGoals);
 
-        // Set Layout manager to position the items
-        rvGoals.setLayoutManager(new LinearLayoutManager(getContext()));
-
         // Create adapter passing in the user data
-        GoalsAdapter adapter = new GoalsAdapter(sampleGoals);
+        GoalsAdapter adapter = new GoalsAdapter(sampleGoals, getContext());
         // Attach the adapter to the recyclerview to populate items
         rvGoals.setAdapter(adapter);
+
+        // Set Layout manager to position the items
+        rvGoals.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Log.i(TAG, adapter.getItemCount() + "");
     }
 
     @Override
