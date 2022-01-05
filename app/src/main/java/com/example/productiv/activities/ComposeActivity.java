@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.concurrent.TimeUnit;
+
 public class ComposeActivity extends AppCompatActivity {
 
     EditText etGoalName;
@@ -58,7 +60,7 @@ public class ComposeActivity extends AppCompatActivity {
                 repeat = etRepeat.getText().toString();
 
                 if (!goalName.equals("") && !dailyGoal.equals("") && !repeat.equals("")) {
-                    UserGoals userGoal = new UserGoals(goalName, repeat, Integer.valueOf(dailyGoal), 0);
+                    UserGoals userGoal = new UserGoals(goalName, repeat, TimeUnit.HOURS.toMillis(Long.valueOf(dailyGoal)), 0);
                     mUserGoalsRef.child("userGoals").child(currentUser.getUid()).child(goalName).setValue(userGoal);
                     Log.i(TAG, "Created new goal with " + currentUser.getUid() + " as the user.");
                     Toast.makeText(getApplicationContext(), "Goal created successfully.", Toast.LENGTH_SHORT).show();

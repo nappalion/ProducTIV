@@ -4,12 +4,12 @@ package com.example.productiv.models;
 public class UserGoals {
     private String goalName;
     private String repeat;
-    private int dailyGoal;
-    private int currentTime;
+    private long dailyGoal;
+    private long currentTime;
 
     public UserGoals() { }
 
-    public UserGoals(String goalName, String repeat, int dailyGoal, int currentTime) {
+    public UserGoals(String goalName, String repeat, long dailyGoal, long currentTime) {
         this.goalName = goalName;
         this.repeat = repeat;
         this.dailyGoal = dailyGoal;
@@ -40,11 +40,11 @@ public class UserGoals {
         return repeat;
     }
 
-    public int getDailyGoal() {
+    public long getDailyGoal() {
         return dailyGoal;
     }
 
-    public int getCurrentTime() {
+    public long getCurrentTime() {
         return currentTime;
     }
 }

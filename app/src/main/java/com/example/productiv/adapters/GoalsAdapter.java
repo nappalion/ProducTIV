@@ -42,6 +42,8 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     OnLongClickListener longClickListener;
     OnClickListener clickListener;
 
+    private static final long millisInHour = 3600000;
+
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -125,9 +127,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             Log.i(TAG, userGoal.getGoalName());
             if (context.getClass().equals(MainActivity.class)) {
                 tvGoal.setText(userGoal.getGoalName());
-                tvDailyGoal.setText(Integer.toString(userGoal.getDailyGoal()));
-                tvCurrentTime.setText(Integer.toString(userGoal.getCurrentTime()));
-                tvGoalTime.setText(Integer.toString(userGoal.getDailyGoal()));
+                tvDailyGoal.setText(convertMillisToHours(userGoal.getDailyGoal()));
+                tvCurrentTime.setText(convertMillisToHours(userGoal.getCurrentTime()));
+                tvGoalTime.setText(convertMillisToHours(userGoal.getDailyGoal()));
             }
             else {
                 tvGoal.setText(userGoal.getGoalName());
@@ -155,5 +157,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                 }
             });
         }
+    }
+
+    public String convertMillisToHours(long millis) {
+        long hours = millis / millisInHour;
+        return String.valueOf(hours);
     }
 }
