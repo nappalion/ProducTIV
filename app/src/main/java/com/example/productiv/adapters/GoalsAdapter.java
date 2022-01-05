@@ -18,8 +18,11 @@ import com.example.productiv.activities.ComposeActivity;
 import com.example.productiv.activities.MainActivity;
 import com.example.productiv.activities.TimerGoalActivity;
 import com.example.productiv.models.UserGoals;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,6 +38,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         void onItemClicked(int position);
     }
 
+
     public static final String TAG = "GoalsAdapter";
 
     private List<UserGoals> userGoals;
@@ -43,7 +47,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     OnClickListener clickListener;
 
     private static final long millisInHour = 3600000;
-
+    String currentTimerGoal;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -86,7 +90,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull GoalsAdapter.ViewHolder holder, int position) {
         // Get the data model based on position
         UserGoals userGoal = userGoals.get(position);
-        Log.i(TAG, "onBindViewHolder called for position: " + position);
+        // Log.i(TAG, "onBindViewHolder called for position: " + position);
 
         // Set item views based on views in data model
         holder.bind(userGoal);
@@ -124,7 +128,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
 
         public void bind(UserGoals userGoal) {
             // Set item views based on your views and data model
-            Log.i(TAG, userGoal.getGoalName());
+            // Log.i(TAG, userGoal.getGoalName());
             if (context.getClass().equals(MainActivity.class)) {
                 tvGoal.setText(userGoal.getGoalName());
                 tvDailyGoal.setText(convertMillisToHours(userGoal.getDailyGoal()));
@@ -144,6 +148,19 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                 }
             });
 
+            mUsersRef.child("currentGoal").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        currentTimerGoal = String.valueOf(task.getResult().getValue());
+                        // Log.i(TAG, currentTimerGoal);
+                    }
+                    else {
+                        Log.e(TAG, "Error getting data", task.getException());
+                    }
+                }
+            });
+
             goalContainer.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -152,6 +169,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                         longClickListener.onItemLongClicked(getAdapterPosition());
                         // Delete the item from database
                         mUserGoalsRef.child(userGoal.getGoalName()).removeValue();
+                        if (currentTimerGoal.equals(userGoal.getGoalName())) {
+                            Log.i(TAG, currentTimerGoal + " is equal to " + userGoal.getGoalName());
+                            mUsersRef.child("currentGoal").setValue("Click Me");
+                        }
                     }
                     return true;
                 }
