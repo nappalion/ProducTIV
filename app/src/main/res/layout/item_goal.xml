@@ -60,17 +60,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="35sp">
+            android:layout_marginEnd="30sp">
 
             <TextView
                 android:id="@+id/tvCurrentTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="15sp"
                 android:paddingEnd="30sp"
+                android:paddingBottom="15sp"
+                android:text="0"
                 android:textColor="@color/white"
-                android:textSize="50sp"
-                tools:text="0" />
+                android:textSize="50sp" />
 
             <ImageView
                 android:id="@+id/ivFraction"

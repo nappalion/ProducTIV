@@ -24,11 +24,11 @@ public class UserGoals {
         this.repeat = repeat;
     }
 
-    public void setDailyGoal(int dailyGoal) {
+    public void setDailyGoal(long dailyGoal) {
         this.dailyGoal = dailyGoal;
     }
 
-    public void setCurrentTime(int currentTime) {
+    public void setCurrentTime(long currentTime) {
         this.currentTime = currentTime;
     }
 

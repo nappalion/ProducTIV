@@ -43,6 +43,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
@@ -52,7 +53,7 @@ public class TimerFragment extends Fragment {
 
     // GoalFragment
     private TextView tvGoal;
-    private String currentGoal;
+    String currentTimeValue;
 
     private EditText etTimer;
     private ToggleButton btnPlay;
@@ -109,7 +110,6 @@ public class TimerFragment extends Fragment {
 
         mUsersRef.child("currentGoal").addValueEventListener(userListener);
 
-        // *** Might not need this
         sharedPreferences = this.getActivity().getSharedPreferences("Timer", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -252,15 +252,16 @@ public class TimerFragment extends Fragment {
         Log.i(TAG, "startContinueTimer called with startTime: " + startTime);
         // Initialize timer view
         etTimer.setText(calculateDuration(startTime));
-
         countDownTimer = new CountDownTimer(startTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 // When tick
+                mUserGoalsRef.child(tvGoal.getText().toString()).child("currentTime").setValue(ServerValue.increment(1000));
 
                 // Set converted string on text view
                 etTimer.setText(calculateDuration(millisUntilFinished));
                 startTime = millisUntilFinished;
+
 
                 editor.putLong("startTime", startTime);
                 editor.apply();
