@@ -29,6 +29,7 @@
         android:paddingLeft="20sp"
         android:paddingRight="20sp"
         android:textColor="@color/dark_gray"
+        android:textSize="20sp"
         tools:text="Study" />
 
     <br.com.sapereaude.maskedEditText.MaskedEditText

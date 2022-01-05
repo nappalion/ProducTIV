@@ -94,8 +94,8 @@ public class TimerFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
-                Log.i(TAG, value);
-                tvGoal.setText(value);
+                if (value != null) tvGoal.setText(value);
+                else tvGoal.setText("Click Me");
             }
 
             @Override
