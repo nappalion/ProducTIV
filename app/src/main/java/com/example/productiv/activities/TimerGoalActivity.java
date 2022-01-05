@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,9 +32,11 @@ public class TimerGoalActivity extends AppCompatActivity {
 
     // Firebase initialize
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mRef;
+    private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
     List<UserGoals> sampleGoals;
+
+    Context context;
 
     public static final String TAG = "TimerGoalActivity";
 
@@ -48,7 +53,7 @@ public class TimerGoalActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+        mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
 
         sampleGoals = new ArrayList<>();
 
@@ -63,7 +68,7 @@ public class TimerGoalActivity extends AppCompatActivity {
                 sampleGoals.clear();
                 for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
                     sampleGoals.add(snapShot.getValue(UserGoals.class));
-                    Log.i(TAG, "Added " + snapShot.getValue(UserGoals.class));
+                    // Log.i(TAG, "Added " + snapShot.getValue(UserGoals.class));
                 }
                 goalsAdapter.notifyDataSetChanged();
             }
@@ -74,7 +79,7 @@ public class TimerGoalActivity extends AppCompatActivity {
                 Log.w(TAG, "loadPost:onCancelled", error.toException());
             }
         };
-        mRef.addValueEventListener(goalListener);
+        mUserGoalsRef.addValueEventListener(goalListener);
 
         GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
             @Override
@@ -86,7 +91,7 @@ public class TimerGoalActivity extends AppCompatActivity {
         GoalsAdapter.OnClickListener onClickListener = new GoalsAdapter.OnClickListener() {
             @Override
             public void onItemClicked(int position) {
-
+                finish();
             }
         };
 

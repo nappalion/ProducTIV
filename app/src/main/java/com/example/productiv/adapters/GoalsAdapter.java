@@ -1,6 +1,8 @@
 package com.example.productiv.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.productiv.R;
 import com.example.productiv.activities.ComposeActivity;
 import com.example.productiv.activities.MainActivity;
+import com.example.productiv.activities.TimerGoalActivity;
 import com.example.productiv.models.UserGoals;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,7 +46,8 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();;
-    private DatabaseReference mRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+    private DatabaseReference mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+    private DatabaseReference mUsersRef = mFirebaseDatabase.getReference("users").child(currentUser.getUid());
 
     public GoalsAdapter(List<UserGoals> userGoals, Context context, OnLongClickListener longClickListener, OnClickListener clickListener) {
         this.userGoals = userGoals;
@@ -60,8 +64,15 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
+        View goalView;
+
         // Inflate the custom layout
-        View goalView = inflater.inflate(R.layout.item_goal, parent, false);
+        if (context.getClass().equals(MainActivity.class)) {
+            goalView = inflater.inflate(R.layout.item_goal, parent, false);
+        }
+        else {
+            goalView = inflater.inflate(R.layout.item_timer_goal, parent, false);
+        }
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(goalView);
@@ -96,26 +107,38 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            tvGoal = itemView.findViewById(R.id.tvGoal);
-            tvDailyGoal = itemView.findViewById(R.id.tvDailyGoal);
-            tvCurrentTime = itemView.findViewById(R.id.tvCurrentTime);
-            tvGoalTime = itemView.findViewById(R.id.tvGoalTime);
-            goalContainer = itemView.findViewById(R.id.goalContainer);
+            if (context.getClass().equals(MainActivity.class)) {
+                tvGoal = itemView.findViewById(R.id.tvGoal);
+                tvDailyGoal = itemView.findViewById(R.id.tvDailyGoal);
+                tvCurrentTime = itemView.findViewById(R.id.tvCurrentTime);
+                tvGoalTime = itemView.findViewById(R.id.tvGoalTime);
+                goalContainer = itemView.findViewById(R.id.goalContainer);
+            }
+            else {
+                tvGoal = itemView.findViewById(R.id.tvGoal);
+                goalContainer = itemView.findViewById(R.id.goalContainer);
+            }
         }
 
         public void bind(UserGoals userGoal) {
             // Set item views based on your views and data model
             Log.i(TAG, userGoal.getGoalName());
-            tvGoal.setText(userGoal.getGoalName());
-            tvDailyGoal.setText(Integer.toString(userGoal.getDailyGoal()));
-            tvCurrentTime.setText(Integer.toString(userGoal.getCurrentTime()));
-            tvGoalTime.setText(Integer.toString(userGoal.getDailyGoal()));
+            if (context.getClass().equals(MainActivity.class)) {
+                tvGoal.setText(userGoal.getGoalName());
+                tvDailyGoal.setText(Integer.toString(userGoal.getDailyGoal()));
+                tvCurrentTime.setText(Integer.toString(userGoal.getCurrentTime()));
+                tvGoalTime.setText(Integer.toString(userGoal.getDailyGoal()));
+            }
+            else {
+                tvGoal.setText(userGoal.getGoalName());
+            }
 
             goalContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Notify the position that was pressed.
                     clickListener.onItemClicked(getAdapterPosition());
+                    mUsersRef.child("currentGoal").setValue(userGoal.getGoalName());
                 }
             });
 
@@ -126,7 +149,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                         // Notify the position that was long pressed.
                         longClickListener.onItemLongClicked(getAdapterPosition());
                         // Delete the item from database
-                        mRef.child(userGoal.getGoalName()).removeValue();
+                        mUserGoalsRef.child(userGoal.getGoalName()).removeValue();
                     }
                     return true;
                 }

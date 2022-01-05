@@ -41,7 +41,17 @@
         android:paddingLeft="20sp"
         android:maxLength="15" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line"
+        android:layout_below="@id/etGoalName"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"/>
+
     <LinearLayout
+        android:id="@+id/dailyGoalContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -62,6 +72,7 @@
             android:layout_height="40sp"
             android:textColor="@color/black"
             android:layout_toRightOf="@id/tvDailyGoal"
+            android:layout_gravity="center"
             android:inputType="number"
             android:maxLength="2"
             android:background="@drawable/textbox_black_border"
@@ -70,12 +81,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="10sp"
+            android:layout_gravity="center"
             android:text="hours"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line"
+        android:layout_below="@id/dailyGoalContainer"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"/>
 
     <TextView
         android:id="@+id/tvRepeatHeading"

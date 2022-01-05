@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.productiv.R;
@@ -24,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,7 @@ public class GoalsFragment extends Fragment {
 
     // Firebase initialize
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mRef;
+    private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
 
 
@@ -52,7 +55,7 @@ public class GoalsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+        mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
 
         sampleGoals = new ArrayList<>();
 
@@ -78,7 +81,8 @@ public class GoalsFragment extends Fragment {
                 Log.w(TAG, "loadPost:onCancelled", error.toException());
             }
         };
-        mRef.addValueEventListener(goalListener);
+
+        mUserGoalsRef.addValueEventListener(goalListener);
 
         GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
             @Override

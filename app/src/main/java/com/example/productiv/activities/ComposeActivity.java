@@ -31,7 +31,7 @@ public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mRef;
+    private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,7 +40,7 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mRef = mFirebaseDatabase.getReference();
+        mUserGoalsRef = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -59,7 +59,7 @@ public class ComposeActivity extends AppCompatActivity {
 
                 if (!goalName.equals("") && !dailyGoal.equals("") && !repeat.equals("")) {
                     UserGoals userGoal = new UserGoals(goalName, repeat, Integer.valueOf(dailyGoal), 0);
-                    mRef.child("userGoals").child(currentUser.getUid()).child(goalName).setValue(userGoal);
+                    mUserGoalsRef.child("userGoals").child(currentUser.getUid()).child(goalName).setValue(userGoal);
                     Log.i(TAG, "Created new goal with " + currentUser.getUid() + " as the user.");
                     Toast.makeText(getApplicationContext(), "Goal created successfully.", Toast.LENGTH_SHORT).show();
                 }

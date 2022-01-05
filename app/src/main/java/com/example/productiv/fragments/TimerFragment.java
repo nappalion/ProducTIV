@@ -1,10 +1,15 @@
 package com.example.productiv.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,14 +34,27 @@ import android.widget.ToggleButton;
 import com.example.productiv.R;
 import com.example.productiv.activities.MainActivity;
 import com.example.productiv.activities.TimerGoalActivity;
+import com.example.productiv.models.UserGoals;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class TimerFragment extends Fragment {
 
-    private EditText etTimer;
+    // GoalFragment
     private TextView tvGoal;
+    private String currentGoal;
+
+    private EditText etTimer;
     private ToggleButton btnPlay;
     public static final String TAG = "TimerFragment";
     public static final int TIMER_MAX = 5999000;
@@ -50,6 +68,13 @@ public class TimerFragment extends Fragment {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    // Firebase initialize
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUserGoalsRef;
+    private DatabaseReference mUsersRef;
+    private FirebaseAuth mAuth;
+
+
     public TimerFragment() {
         // Required empty public constructor
     }
@@ -58,6 +83,31 @@ public class TimerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Firebase initialize
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
+        mUsersRef = mFirebaseDatabase.getReference("users").child(currentUser.getUid());
+
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Log.i(TAG, value);
+                tvGoal.setText(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Getting Goal failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", error.toException());
+            }
+        };
+
+        mUsersRef.child("currentGoal").addValueEventListener(userListener);
+
+        // *** Might not need this
         sharedPreferences = this.getActivity().getSharedPreferences("Timer", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -76,6 +126,7 @@ public class TimerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         Log.i(TAG, "Called onResume()");
 
         // SharedPreferences remembers startTime and isPaused after app is killed
@@ -99,6 +150,12 @@ public class TimerFragment extends Fragment {
             timerPause();
             btnPlay.setChecked(true);
         }
+    }
+
+    // Called after onViewCreated
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -241,4 +298,23 @@ public class TimerFragment extends Fragment {
         Intent i = new Intent(getActivity(), TimerGoalActivity.class);
         startActivity(i);
     }
+
+    /* No longer need Activity Result Launcher
+    // Create ActivityResultLauncher
+    ActivityResultLauncher<Intent> timerGoalActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        tvGoal.setText(data.getStringExtra("GoalName"));
+                    }
+                }
+            });
+
+             // Launch activity to get result
+        // timerGoalActivityResultLauncher.launch(i);
+     */
 }

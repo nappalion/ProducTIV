@@ -28,6 +28,7 @@
         android:elevation="15sp"
         android:paddingLeft="20sp"
         android:paddingRight="20sp"
+        android:textColor="@color/dark_gray"
         tools:text="Study" />
 
     <br.com.sapereaude.maskedEditText.MaskedEditText
