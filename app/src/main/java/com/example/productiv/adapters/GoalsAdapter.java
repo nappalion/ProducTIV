@@ -169,10 +169,9 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                         longClickListener.onItemLongClicked(getAdapterPosition());
                         // Delete the item from database
                         mUserGoalsRef.child(userGoal.getGoalName()).removeValue();
-                        if (currentTimerGoal.equals(userGoal.getGoalName())) {
-                            Log.i(TAG, currentTimerGoal + " is equal to " + userGoal.getGoalName());
-                            mUsersRef.child("currentGoal").setValue("Click Me");
-                        }
+
+                        // Set default value if TimerGoal is the same
+                        if (currentTimerGoal.equals(userGoal.getGoalName())) mUsersRef.child("currentGoal").setValue("Click Me");
                     }
                     return true;
                 }

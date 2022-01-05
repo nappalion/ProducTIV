@@ -96,6 +96,8 @@ public class TimerFragment extends Fragment {
                 String value = dataSnapshot.getValue(String.class);
                 if (value != null) tvGoal.setText(value);
                 else tvGoal.setText("Click Me");
+
+                btnPlay.setChecked(true);
             }
 
             @Override
@@ -143,7 +145,10 @@ public class TimerFragment extends Fragment {
             countDownTimer.cancel();
         }
 
-        startContinueTimer();
+        if (!tvGoal.getText().toString().equals("Click Me")) startContinueTimer();
+
+        // Pause when resuming after selecting goal
+        if (countDownTimer != null) timerPause();
 
         // If paused before exiting activity, app remembers and pauses the timer
         if (isPaused) {
@@ -211,10 +216,21 @@ public class TimerFragment extends Fragment {
                 btnPlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // If goal not chosen
+                        if (tvGoal.getText().toString().equals("Click Me")) {
+                            Toast.makeText(getActivity(), "Please choose a goal.", Toast.LENGTH_SHORT).show();
+                            btnPlay.setChecked(true);
+                            editor.putBoolean("isPaused", true);
+
+                            return;
+                        }
+
+                        // If goal is chosen
                         if (btnPlay.isChecked()) {
                             timerPause();
                             editor.putBoolean("isPaused", true);
                         } else {
+                            Log.i(TAG, "that one thing was called");
                             hideKeyboard();
                             timerResume();
                             editor.putBoolean("isPaused", false);
