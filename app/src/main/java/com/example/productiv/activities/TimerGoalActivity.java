@@ -23,8 +23,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TimerGoalActivity extends AppCompatActivity {
 
@@ -41,6 +45,8 @@ public class TimerGoalActivity extends AppCompatActivity {
     public static final String TAG = "TimerGoalActivity";
 
     GoalsAdapter goalsAdapter;
+
+    String currentDate = formatDate(Calendar.getInstance().getTime());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,5 +113,11 @@ public class TimerGoalActivity extends AppCompatActivity {
         // Set Layout manager to position the items
         rvGoals.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         Log.i(TAG, goalsAdapter.getItemCount() + "");
+    }
+
+    public String formatDate(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }

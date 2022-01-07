@@ -5,16 +5,14 @@ public class UserGoals {
     private String goalName;
     private String repeat;
     private long dailyGoal;
-    private long currentTime;
 
     public UserGoals() { }
 
-    public UserGoals(String goalName, String repeat, long dailyGoal, long currentTime) {
+    public UserGoals(String goalName, String repeat, long dailyGoal) {
         this.goalName = goalName;
         this.repeat = repeat;
         this.dailyGoal = dailyGoal;
     }
-
 
     public void setGoalName(String goalName) {
         this.goalName = goalName;
@@ -28,10 +26,6 @@ public class UserGoals {
         this.dailyGoal = dailyGoal;
     }
 
-    public void setCurrentTime(long currentTime) {
-        this.currentTime = currentTime;
-    }
-
     public String getGoalName() {
         return goalName;
     }
@@ -42,9 +36,5 @@ public class UserGoals {
 
     public long getDailyGoal() {
         return dailyGoal;
-    }
-
-    public long getCurrentTime() {
-        return currentTime;
     }
 }

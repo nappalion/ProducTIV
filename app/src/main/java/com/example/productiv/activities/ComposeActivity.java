@@ -17,6 +17,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class ComposeActivity extends AppCompatActivity {
@@ -30,6 +34,8 @@ public class ComposeActivity extends AppCompatActivity {
     String dailyGoal;
     String repeat;
 
+    String currentDate = formatDate(Calendar.getInstance().getTime());
+
     public static final String TAG = "ComposeActivity";
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -41,11 +47,11 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUserGoalsRef = mFirebaseDatabase.getReference();
+        // Firebase initialize
         mAuth = FirebaseAuth.getInstance();
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUserGoalsRef = mFirebaseDatabase.getReference().child("userGoals").child(currentUser.getUid());
 
         etGoalName = findViewById(R.id.etGoalName);
         etDailyGoal = findViewById(R.id.etDailyGoal);
@@ -60,8 +66,8 @@ public class ComposeActivity extends AppCompatActivity {
                 repeat = etRepeat.getText().toString();
 
                 if (!goalName.equals("") && !dailyGoal.equals("") && !repeat.equals("")) {
-                    UserGoals userGoal = new UserGoals(goalName, repeat, TimeUnit.HOURS.toMillis(Long.valueOf(dailyGoal)), 0);
-                    mUserGoalsRef.child("userGoals").child(currentUser.getUid()).child(goalName).setValue(userGoal);
+                    UserGoals userGoal = new UserGoals(goalName, repeat, TimeUnit.HOURS.toMillis(Long.valueOf(dailyGoal)));
+                    mUserGoalsRef.child(goalName).setValue(userGoal);
                     Log.i(TAG, "Created new goal with " + currentUser.getUid() + " as the user.");
                     Toast.makeText(getApplicationContext(), "Goal created successfully.", Toast.LENGTH_SHORT).show();
                 }
@@ -70,5 +76,11 @@ public class ComposeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String formatDate(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }

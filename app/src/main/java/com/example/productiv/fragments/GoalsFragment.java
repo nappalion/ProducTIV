@@ -27,8 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GoalsFragment extends Fragment {
 
@@ -42,6 +46,7 @@ public class GoalsFragment extends Fragment {
     private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
 
+    String currentDate = formatDate(Calendar.getInstance().getTime());
 
     public GoalsFragment() {
         // Required empty public constructor
@@ -124,5 +129,11 @@ public class GoalsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_goals, container, false);
+    }
+
+    public String formatDate(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }

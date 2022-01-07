@@ -46,7 +46,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class TimerFragment extends Fragment {
@@ -73,8 +78,10 @@ public class TimerFragment extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserGoalsRef;
     private DatabaseReference mUsersRef;
+    private DatabaseReference mGoalHistoryRef;
     private FirebaseAuth mAuth;
 
+    String currentDate = formatDate(Calendar.getInstance().getTime());
 
     public TimerFragment() {
         // Required empty public constructor
@@ -90,6 +97,7 @@ public class TimerFragment extends Fragment {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
         mUsersRef = mFirebaseDatabase.getReference("users").child(currentUser.getUid());
+        mGoalHistoryRef = mFirebaseDatabase.getReference("goalHistory").child(currentUser.getUid()).child(currentDate);
 
         ValueEventListener userListener = new ValueEventListener() {
             @Override
@@ -128,6 +136,9 @@ public class TimerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // Initialize date
+        currentDate = formatDate(Calendar.getInstance().getTime());
 
         Log.i(TAG, "Called onResume()");
 
@@ -256,7 +267,9 @@ public class TimerFragment extends Fragment {
             @Override
             public void onTick(long millisUntilFinished) {
                 // When tick
-                mUserGoalsRef.child(tvGoal.getText().toString()).child("currentTime").setValue(ServerValue.increment(1000));
+                if (!tvGoal.getText().toString().equals("Click Me")) {
+                    mGoalHistoryRef.child(tvGoal.getText().toString()).child("currentTime").setValue(ServerValue.increment(1000));
+                }
 
                 // Set converted string on text view
                 etTimer.setText(calculateDuration(millisUntilFinished));
@@ -314,6 +327,12 @@ public class TimerFragment extends Fragment {
     public void goTimerGoalActivity() {
         Intent i = new Intent(getActivity(), TimerGoalActivity.class);
         startActivity(i);
+    }
+
+    public String formatDate(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 
     /* No longer need Activity Result Launcher

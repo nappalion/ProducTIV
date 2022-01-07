@@ -3,6 +3,7 @@ package com.example.productiv.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +18,24 @@ import com.example.productiv.R;
 import com.example.productiv.activities.ComposeActivity;
 import com.example.productiv.activities.MainActivity;
 import com.example.productiv.activities.TimerGoalActivity;
+import com.example.productiv.models.GoalHistory;
 import com.example.productiv.models.UserGoals;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> {
 
@@ -45,6 +54,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     Context context;
     OnLongClickListener longClickListener;
     OnClickListener clickListener;
+    String currentDate = formatDate(Calendar.getInstance().getTime());
 
     private static final long millisInHour = 3600000;
     String currentTimerGoal;
@@ -54,6 +64,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();;
     private DatabaseReference mUserGoalsRef = mFirebaseDatabase.getReference("userGoals").child(currentUser.getUid());
     private DatabaseReference mUsersRef = mFirebaseDatabase.getReference("users").child(currentUser.getUid());
+    private DatabaseReference mGoalHistoryRef = mFirebaseDatabase.getReference("goalHistory").child(currentUser.getUid()).child(currentDate);
 
     public GoalsAdapter(List<UserGoals> userGoals, Context context, OnLongClickListener longClickListener, OnClickListener clickListener) {
         this.userGoals = userGoals;
@@ -132,7 +143,29 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
             if (context.getClass().equals(MainActivity.class)) {
                 tvGoal.setText(userGoal.getGoalName());
                 tvDailyGoal.setText(convertMillisToHours(userGoal.getDailyGoal()));
-                tvCurrentTime.setText(convertMillisToHours(userGoal.getCurrentTime()));
+                // TODO: get the goalName then match with a goalName + date in GoalHistory if not 0
+                // Initialize every time for new date
+                mGoalHistoryRef.child(userGoal.getGoalName()).child("currentTime").setValue(ServerValue.increment(0));
+                ValueEventListener goalListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Long currentTime = snapshot.getValue(Long.class);
+                        tvCurrentTime.setText(convertMillisToHours(currentTime));
+                        if (currentTime > userGoal.getDailyGoal()) {
+                            mGoalHistoryRef.child(userGoal.getGoalName()).child("isComplete").setValue(true);
+                        }
+                        else {
+                            mGoalHistoryRef.child(userGoal.getGoalName()).child("isComplete").setValue(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                };
+                mGoalHistoryRef.child(userGoal.getGoalName()).child("currentTime").addValueEventListener(goalListener);
+
                 tvGoalTime.setText(convertMillisToHours(userGoal.getDailyGoal()));
             }
             else {
@@ -182,5 +215,11 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
     public String convertMillisToHours(long millis) {
         long hours = millis / millisInHour;
         return String.valueOf(hours);
+    }
+
+    public String formatDate(Date date) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+        return formattedDate;
     }
 }
