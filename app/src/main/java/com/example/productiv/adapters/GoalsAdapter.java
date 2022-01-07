@@ -177,10 +177,18 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                 public void onClick(View v) {
                     // Notify the position that was pressed.
                     clickListener.onItemClicked(getAdapterPosition());
-                    mUsersRef.child("currentGoal").setValue(userGoal.getGoalName());
+
+                    // If in goals fragment edit the goal; if in timer fragment set goal
+                    if (context.getClass().equals(MainActivity.class)) {
+                        goComposeActivity(userGoal.getGoalName(), convertMillisToHours(userGoal.getDailyGoal()), userGoal.getRepeat());
+                    }
+                    else {
+                        mUsersRef.child("currentGoal").setValue(userGoal.getGoalName());
+                    }
                 }
             });
 
+            // Checks goal that is selected in TimerFragment
             mUsersRef.child("currentGoal").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -210,6 +218,14 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.ViewHolder> 
                 }
             });
         }
+    }
+
+    public void goComposeActivity(String goalName, String dailyGoal, String repeat) {
+        Intent i = new Intent(context, ComposeActivity.class);
+        i.putExtra("goalName", goalName);
+        i.putExtra("dailyGoal", dailyGoal);
+        i.putExtra("repeat", repeat);
+        context.startActivity(i);
     }
 
     public String convertMillisToHours(long millis) {

@@ -1,5 +1,6 @@
 package com.example.productiv.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.productiv.R;
+import com.example.productiv.activities.ComposeActivity;
+import com.example.productiv.activities.MainActivity;
 import com.example.productiv.adapters.GoalsAdapter;
 import com.example.productiv.models.UserGoals;
 import com.google.firebase.auth.FirebaseAuth;

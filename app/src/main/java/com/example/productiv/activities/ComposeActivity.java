@@ -3,11 +3,13 @@ package com.example.productiv.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.productiv.R;
@@ -29,6 +31,7 @@ public class ComposeActivity extends AppCompatActivity {
     EditText etDailyGoal;
     EditText etRepeat;
     ImageView btnCompose;
+    TextView tvGoalHeading;
 
     String goalName;
     String dailyGoal;
@@ -59,6 +62,19 @@ public class ComposeActivity extends AppCompatActivity {
         etDailyGoal = findViewById(R.id.etDailyGoal);
         etRepeat = findViewById(R.id.etRepeat);
         btnCompose = findViewById(R.id.btnCompose);
+        tvGoalHeading = findViewById(R.id.tvGoalHeading);
+
+        Intent data = getIntent();
+        if (data.hasExtra("goalName")
+                && data.hasExtra("dailyGoal")
+                && data.hasExtra("repeat")) {
+            etGoalName.setBackgroundResource(R.drawable.textbox_light_gray_fill);
+            etGoalName.setEnabled(false);
+            tvGoalHeading.setText("Edit Goal");
+            etGoalName.setText(data.getStringExtra("goalName"));
+            etDailyGoal.setText(data.getStringExtra("dailyGoal"));
+            etRepeat.setText(data.getStringExtra("repeat"));
+        }
 
         btnCompose.setOnClickListener(new View.OnClickListener() {
             @Override
