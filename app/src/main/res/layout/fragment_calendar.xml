@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10sp"
     tools:context=".fragments.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Calendar" />
+        android:id="@+id/tvYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textbox_light_red_fill"
+        android:text="2021"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:textSize="17sp"
+        android:elevation="10sp"
+        android:textColor="@color/white" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvYear"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="July" />
+
+    <ImageView
+        android:id="@+id/ivCalendarBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMonth"
+        android:adjustViewBounds="true"
+        android:src="@drawable/default_calendar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGoals"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_below="@+id/ivCalendarBackground" />
+
+</RelativeLayout>
