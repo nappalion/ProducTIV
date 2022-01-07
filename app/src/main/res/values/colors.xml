@@ -13,4 +13,5 @@
     <color name="transparent">#0000ffff</color>
     <color name="dark_gray">#4A4A4A</color>
     <color name="light_blue">#BEFCF8</color>
+    <color name="light_gray">#BFBFBF</color>
 </resources>

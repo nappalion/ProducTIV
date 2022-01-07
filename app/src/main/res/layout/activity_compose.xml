@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ComposeActivity"
+    android:orientation="vertical"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/tvGoalHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_red"
+        android:textColor="@color/white"
+        android:padding="15sp"
+        android:text="Create Goal"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tvNameHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="40sp"
+        android:text="Name:"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/etGoalName"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_below="@id/tvNameHeading"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:background="@drawable/textbox_black_border"
+        android:paddingLeft="20sp"
+        android:maxLength="15" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line"
+        android:layout_below="@id/etGoalName"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"/>
+
+    <LinearLayout
+        android:id="@+id/dailyGoalContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30sp"
+        android:layout_gravity="center">
+        <TextView
+            android:id="@+id/tvDailyGoal"
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Daily Goal:"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/etDailyGoal"
+            android:layout_width="80sp"
+            android:layout_height="40sp"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@id/tvDailyGoal"
+            android:layout_gravity="center"
+            android:inputType="number"
+            android:maxLength="1"
+            android:background="@drawable/textbox_black_border"
+            android:paddingLeft="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_gravity="center"
+            android:text="hours"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line"
+        android:layout_below="@id/dailyGoalContainer"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginRight="5sp"/>
+
+    <TextView
+        android:id="@+id/tvRepeatHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:layout_marginLeft="40sp"
+        android:text="Repeat:"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/etRepeat"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        android:inputType="text"
+        android:maxLength="10"
+        android:textColor="@color/black"
+        android:background="@drawable/textbox_black_border"
+        android:paddingLeft="20sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70sp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/yellow_rectangle" />
+
+        <ImageView
+            android:id="@+id/btnCompose"
+            android:layout_width="wrap_content"
+            android:layout_height="110sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10sp"
+            android:src="@drawable/compose_button" />
+    </RelativeLayout>
+
+</LinearLayout>

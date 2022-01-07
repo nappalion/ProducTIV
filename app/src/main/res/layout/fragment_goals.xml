@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.GoalsFragment">
+    android:layout_marginLeft="20sp"
+    android:layout_marginRight="20sp"
+    tools:context=".fragments.GoalsFragment"
+    android:orientation="vertical" >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvHeading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:textColor="@color/black"
         android:text="Goals" />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGoals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

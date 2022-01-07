@@ -56,6 +56,9 @@ dependencies {
     // Declare the dependency for the Firebase Authentication library
     implementation 'com.google.firebase:firebase-auth'
 
+    // Declare the dependency for the Realtime Database library
+    implementation 'com.google.firebase:firebase-database'
+
     // implementation 'io.github.vicmikhailau:MaskedEditText:4.0.7'
     implementation 'ru.egslava:MaskedEditText:1.0.5'
 }

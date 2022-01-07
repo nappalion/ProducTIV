@@ -16,4 +16,14 @@
         <item name="android:letterSpacing">0</item>
         <item name="android:textCursorDrawable">@color/white</item>
     </style>
+
+    <style name="Theme.AppCompat.Dialog"
+        parent="Base.Theme.AppCompat.Light.Dialog.FixedSize">
+        <!-- removing the dialog's action bar -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowMinWidthMajor">500sp</item>
+        <item name="windowMinWidthMinor">700sp</item>
+    </style>
 </resources>

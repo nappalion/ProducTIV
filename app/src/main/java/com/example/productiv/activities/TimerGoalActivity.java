@@ -1,23 +1,18 @@
-package com.example.productiv.fragments;
-
-import android.content.Intent;
-import android.os.Bundle;
+package com.example.productiv.activities;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.productiv.R;
-import com.example.productiv.activities.ComposeActivity;
-import com.example.productiv.activities.MainActivity;
 import com.example.productiv.adapters.GoalsAdapter;
 import com.example.productiv.models.UserGoals;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,27 +30,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class GoalsFragment extends Fragment {
+public class TimerGoalActivity extends AppCompatActivity {
 
     RecyclerView rvGoals;
-    List<UserGoals> sampleGoals;
-    GoalsAdapter goalsAdapter;
-    public static final String TAG = "GoalsFragment";
 
     // Firebase initialize
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
+    List<UserGoals> sampleGoals;
+
+    Context context;
+
+    public static final String TAG = "TimerGoalActivity";
+
+    GoalsAdapter goalsAdapter;
 
     String currentDate = formatDate(Calendar.getInstance().getTime());
 
-    public GoalsFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timer_goal);
+
+        rvGoals = findViewById(R.id.rvGoals);
 
         // Firebase initialize
         mAuth = FirebaseAuth.getInstance();
@@ -78,7 +74,7 @@ public class GoalsFragment extends Fragment {
                 sampleGoals.clear();
                 for (DataSnapshot snapShot: dataSnapshot.getChildren()) {
                     sampleGoals.add(snapShot.getValue(UserGoals.class));
-                    Log.i(TAG, "Added " + snapShot.getValue(UserGoals.class));
+                    // Log.i(TAG, "Added " + snapShot.getValue(UserGoals.class));
                 }
                 goalsAdapter.notifyDataSetChanged();
             }
@@ -89,49 +85,34 @@ public class GoalsFragment extends Fragment {
                 Log.w(TAG, "loadPost:onCancelled", error.toException());
             }
         };
-
         mUserGoalsRef.addValueEventListener(goalListener);
 
         GoalsAdapter.OnLongClickListener onLongClickListener = new GoalsAdapter.OnLongClickListener() {
             @Override
             public void onItemLongClicked(int position) {
-                // Delete the item from the model
-                sampleGoals.remove(position);
-                // Notify the adapter
-                goalsAdapter.notifyItemRemoved(position);
+                // Do when long clicked
             }
         };
 
         GoalsAdapter.OnClickListener onClickListener = new GoalsAdapter.OnClickListener() {
             @Override
             public void onItemClicked(int position) {
-
+                finish();
             }
         };
 
         // Create adapter passing in the user data
-        goalsAdapter = new GoalsAdapter(sampleGoals, getContext(), onLongClickListener, onClickListener);
-    }
+        goalsAdapter = new GoalsAdapter(sampleGoals, getApplicationContext(), onLongClickListener, onClickListener);
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         // Lookup the recyclerview in activity layout
-        rvGoals = (RecyclerView) getView().findViewById(R.id.rvGoals);
+        rvGoals = (RecyclerView) findViewById(R.id.rvGoals);
 
         // Attach the adapter to the recyclerview to populate items
         rvGoals.setAdapter(goalsAdapter);
 
         // Set Layout manager to position the items
-        rvGoals.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvGoals.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         Log.i(TAG, goalsAdapter.getItemCount() + "");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals, container, false);
     }
 
     public String formatDate(Date date) {

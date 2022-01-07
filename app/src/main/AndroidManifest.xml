@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProducTIV">
         <activity
+            android:name=".activities.TimerGoalActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
+        <activity
+            android:name=".activities.ComposeActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
             android:name=".activities.EmailVerifyActivity"
             android:exported="false" />
         <activity
