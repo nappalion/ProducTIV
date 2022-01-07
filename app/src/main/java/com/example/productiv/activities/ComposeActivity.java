@@ -41,6 +41,7 @@ public class ComposeActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUserGoalsRef;
     private FirebaseAuth mAuth;
+    private DatabaseReference mGoalHistoryRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class ComposeActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mUserGoalsRef = mFirebaseDatabase.getReference().child("userGoals").child(currentUser.getUid());
+        mGoalHistoryRef = mFirebaseDatabase.getReference("goalHistory").child(currentUser.getUid()).child(currentDate);
 
         etGoalName = findViewById(R.id.etGoalName);
         etDailyGoal = findViewById(R.id.etDailyGoal);
@@ -70,6 +72,9 @@ public class ComposeActivity extends AppCompatActivity {
                     mUserGoalsRef.child(goalName).setValue(userGoal);
                     Log.i(TAG, "Created new goal with " + currentUser.getUid() + " as the user.");
                     Toast.makeText(getApplicationContext(), "Goal created successfully.", Toast.LENGTH_SHORT).show();
+
+                    // If user recreates a goal that previously had a time for that day, overwrite the current time with 0
+                    mGoalHistoryRef.child(userGoal.getGoalName()).child("currentTime").setValue(0);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Unable to create goal.", Toast.LENGTH_SHORT).show();
