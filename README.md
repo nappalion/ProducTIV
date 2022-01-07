@@ -9,13 +9,13 @@ The following **required** functionality is completed:
 
 - [x] User can login/signup with their own account.
 - [x] User can verify their email when signing up.
-- [ ] User can view their goals for the day in the goal page.
+- [x] User can view their goals for the day in the goal page.
 - [x] User can view and use a timer on the timer page.
 - [ ] User can see their monthly/daily progress on the calendar page. 
 - [ ] User can view the shop and see customizable options for the goal, timer, and calendar page.
 - [ ] User can change settings: edit profile, changing password, notifications, etc.
-- [ ] User can edit, create and delete a goal.
-- [ ] User can edit their timer.
+- [x] User can edit, create and delete a goal.
+- [x] User can edit their timer.
 - [ ] User can view graph analytics (displaying totals) for the week, day, year, or month.
 
 
@@ -27,8 +27,19 @@ The following **optional** functionality is completed:
 
 ## Weekly Progress
 
+### Week 3 (1/2-1/8):
+-
+
 ### Week 2 (12/26-1/1):
-- n/a
+- User can signup with their own account.
+- When new account is created, user is taken to EmailVerifyActivity where they can verify their email.
+- If users leaves EmailVerify Activity page without verifying, they are requested to still verify every time they log in.
+- User can use a timer that plays no matter where in the app user is in.
+- Timer time is saved on app close.
+- User can pause, play, and edit timer.
+- Edit timer uses Mask library and autocompletes with 0's if full time is not  typed.
+
+<img src="/progress/Week2-1.gif" width="200"> <img src="/progress/Week2-2.gif" width="200">
 
 ### Week 1 (12/19-12/25): 
 - Created the Figma diagram for the app.
