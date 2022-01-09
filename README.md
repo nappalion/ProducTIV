@@ -28,7 +28,6 @@ The following **optional** functionality is completed:
 ## Weekly Progress
 
 ### Week 4 (1/9-1-15):
-- 
 
 ### Week 3 (1/2-1/8):
 - User can view their own goals for the day (saved in account) in the GoalFragment.
@@ -37,7 +36,7 @@ The following **optional** functionality is completed:
 - User can create a goal by clicking the icon in the BottomNavBar in MainActivity.
 - User can determine what goal to set in the TimerFragment.
 
-<img src="/progress/Week3-1.gif" width="200">
+<img src="/progress/Week3-1.gif" width="200"> <img src="/progress/Week3-2.gif" width="200">
 
 ### Week 2 (12/26-1/1):
 - User can signup with their own account.
