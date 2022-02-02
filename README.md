@@ -27,7 +27,7 @@ The following **optional** functionality is completed:
 
 ## Weekly Progress
 
-### Week 4 (1/9-1-15):
+### Week 4 ():
 
 ### Week 3 (1/2-1/8):
 - User can view their own goals for the day (saved in account) in the GoalFragment.
